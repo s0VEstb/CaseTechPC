@@ -1,5 +1,13 @@
 from django.urls import path
+from .views import TopicListView, SubtopicListView, LessonListView, LessonDetailView, EnrollInTopicView, MarkLessonCompletedView
+app_name = 'course'
 
 urlpatterns = [
-
+    path('topics/', TopicListView.as_view(), name='topics'),
+    path('topics/<int:topic_id>/subtopics/', SubtopicListView.as_view(), name='subtopics'),
+    path('subtopics/<int:subtopic_id>/lessons/', LessonListView.as_view(), name='lessons'),
+    path('lessons/<slug:slug>/', LessonDetailView.as_view(), name='lesson_detail'),
+    path('topics/<int:topic_id>/enroll/', EnrollInTopicView.as_view(), name='enroll'),
+    path('lessons/<int:lesson_id>/complete/', MarkLessonCompletedView.as_view(), name='mark_complete'),
 ]
+

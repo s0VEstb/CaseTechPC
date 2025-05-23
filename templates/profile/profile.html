@@ -142,7 +142,7 @@
                         <div class="enrolled-topic">
                             <h5>{{ topic.title }}</h5>
                             <p class="text-muted mb-2">{{ topic.description|truncatewords:20 }}</p>
-                            <a href="{% url 'topic_detail' topic.slug %}" class="btn btn-sm btn-primary">
+                            <a href="{% url 'course:subtopics' topic.id %}" class="btn btn-sm btn-primary">
                                 Перейти к курсу
                             </a>
                         </div>
@@ -152,7 +152,7 @@
         {% else %}
             <div class="alert alert-info">
                 <i class="fas fa-info-circle me-2"></i>Вы пока не записаны ни на один курс.
-                <a href="/" class="alert-link">Перейти в каталог</a>
+                <a href="/course/topics" class="alert-link">Перейти в каталог</a>
             </div>
         {% endif %}
     </div>
