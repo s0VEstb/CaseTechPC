@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CaseTechPC{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+
+        /* Preloader Styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Page Content Animation */
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .page-content.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Existing Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <i class="fas fa-desktop me-2"></i>CaseTechPC
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Главная</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/catalog"><i class="fas fa-list me-1"></i>Каталог</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i>О нас</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact"><i class="fas fa-envelope me-1"></i>Контакты</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>О компании</h5>
+                        <p>CaseTechPC - ваш надежный партнер в мире компьютерных технологий.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Контакты</h5>
+                        <p>
+                            <i class="fas fa-phone me-2"></i>+7 (XXX) XXX-XX-XX<br>
+                            <i class="fas fa-envelope me-2"></i>info@casetchpc.ru
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Мы в соцсетях</h5>
+                        <div class="social-links">
+                            <a href="#" class="text-white me-3"><i class="fab fa-vk fa-lg"></i></a>
+                            <a href="#" class="text-white me-3"><i class="fab fa-telegram fa-lg"></i></a>
+                            <a href="#" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-4 mb-4">
+                <div class="text-center">
+                    <p class="mb-0">&copy; {% now "Y" %} CaseTechPC. Все права защищены.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Page Loading Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide preloader and show content
+            setTimeout(function() {
+                document.querySelector('.preloader').classList.add('fade-out');
+                document.querySelector('.page-content').classList.add('loaded');
+                
+                // Remove preloader from DOM after animation
+                setTimeout(function() {
+                    document.querySelector('.preloader').style.display = 'none';
+                }, 500);
+            }, 800); // Adjust timing as needed
+        });
+
+        // Handle page transitions
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href && !e.target.href.includes('#')) {
+                e.preventDefault();
+                const href = e.target.href;
+                
+                // Fade out current page
+                document.querySelector('.page-content').classList.remove('loaded');
+                
+                // Show preloader
+                document.querySelector('.preloader').style.display = 'flex';
+                document.querySelector('.preloader').classList.remove('fade-out');
+                
+                // Navigate to new page
+                setTimeout(function() {
+                    window.location.href = href;
+                }, 500);
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
