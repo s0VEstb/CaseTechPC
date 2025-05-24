@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Topic, Subtopic, Lesson, Enrollment, UserProgress
+from ..models.course import CustomUser, Topic, Subtopic, Lesson, Enrollment, UserProgress
 
 class LessonInline(admin.TabularInline):
     model = Lesson

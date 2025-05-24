@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}CaseTechPC{% endblock %}</title>
-    
+    <!-- Disable aggressive caching -->
+    <meta http-equiv="Cache-Control" content="no-store">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -17,7 +18,13 @@
             --accent-color: #e74c3c;
         }
 
-        /* Preloader Styles */
+        .team-photo {
+        width: 100%;
+        height: 250px; /* можно изменить на любое нужное значение */
+        object-fit: cover;
+        object-position: center;
+        }
+
         .preloader {
             position: fixed;
             top: 0;
@@ -31,11 +38,7 @@
             z-index: 9999;
             transition: opacity 0.5s ease-out;
         }
-
-        .preloader.fade-out {
-            opacity: 0;
-        }
-
+        .preloader.fade-out { opacity: 0; }
         .loader {
             width: 50px;
             height: 50px;
@@ -44,82 +47,28 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Page Content Animation */
+        @keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
         .page-content {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
-
         .page-content.loaded {
             opacity: 1;
             transform: translateY(0);
         }
-
         /* Existing Styles */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .navbar {
-            background-color: var(--primary-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand {
-            font-weight: 600;
-            color: white !important;
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8) !important;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: white !important;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 2rem 0;
-        }
-
-        .footer {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1.5rem 0;
-            margin-top: auto;
-        }
-
-        .btn-primary {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-
-        .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
-        }
-
-        .card {
-            border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+        .navbar { background-color: var(--primary-color); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+        .navbar-brand { font-weight:600; color:white !important; }
+        .nav-link { color:rgba(255,255,255,0.8) !important; transition: color .3s; }
+        .nav-link:hover { color:white !important; }
+        .main-content { flex:1; padding:2rem 0; }
+        .footer { background-color: var(--primary-color); color:white; padding:1.5rem 0; margin-top:auto; }
+        .btn-primary { background-color: var(--secondary-color); border-color: var(--secondary-color); }
+        .btn-primary:hover { background-color:#2980b9; border-color:#2980b9; }
+        .card { border:none; box-shadow:0 4px 6px rgba(0,0,0,0.1); transition:transform .3s; }
+        .card:hover { transform:translateY(-5px); }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
@@ -128,7 +77,6 @@
     <div class="preloader">
         <div class="loader"></div>
     </div>
-
     <!-- Page Content -->
     <div class="page-content">
         <!-- Navigation -->
@@ -142,18 +90,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Главная</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/course/topics"><i class="fas fa-list me-1"></i>Каталог</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i>О нас</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/contact"><i class="fas fa-envelope me-1"></i>Контакты</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Главная</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/topics"><i class="fas fa-list me-1"></i>Каталог</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/about_us"><i class="fas fa-info-circle me-1"></i>О нас</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/contact"><i class="fas fa-envelope me-1"></i>Контакты</a></li>
                         {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
@@ -173,22 +113,18 @@
                             </ul>
                         </li>
                         {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-1"></i>Войти</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-1"></i>Войти</a></li>
                         {% endif %}
                     </ul>
                 </div>
             </div>
         </nav>
-
         <!-- Main Content -->
         <main class="main-content">
             <div class="container">
                 {% block content %}{% endblock %}
             </div>
         </main>
-
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
@@ -199,10 +135,7 @@
                     </div>
                     <div class="col-md-4">
                         <h5>Контакты</h5>
-                        <p>
-                            <i class="fas fa-phone me-2"></i>+7 (XXX) XXX-XX-XX<br>
-                            <i class="fas fa-envelope me-2"></i>info@casetchpc.ru
-                        </p>
+                        <p><i class="fas fa-phone me-2"></i>+7 (XXX) XXX-XX-XX<br><i class="fas fa-envelope me-2"></i>info@casetchpc.ru</p>
                     </div>
                     <div class="col-md-4">
                         <h5>Мы в соцсетях</h5>
@@ -214,49 +147,30 @@
                     </div>
                 </div>
                 <hr class="mt-4 mb-4">
-                <div class="text-center">
-                    <p class="mb-0">&copy; {% now "Y" %} CaseTechPC. Все права защищены.</p>
-                </div>
+                <div class="text-center"><p class="mb-0">&copy; {% now "Y" %} CaseTechPC. Все права защищены.</p></div>
             </div>
         </footer>
     </div>
-
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <!-- Page Loading Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hide preloader and show content
-            setTimeout(function() {
-                document.querySelector('.preloader').classList.add('fade-out');
-                document.querySelector('.page-content').classList.add('loaded');
-                
-                // Remove preloader from DOM after animation
-                setTimeout(function() {
-                    document.querySelector('.preloader').style.display = 'none';
-                }, 500);
-            }, 800); // Adjust timing as needed
+        function showContent() {
+            const preloader = document.querySelector('.preloader');
+            const content = document.querySelector('.page-content');
+            preloader.classList.add('fade-out');
+            content.classList.add('loaded');
+            setTimeout(() => preloader.style.display = 'none', 500);
+        }
+        document.addEventListener('DOMContentLoaded', showContent);
+        window.addEventListener('pageshow', event => {
+            if (event.persisted) showContent();
         });
-
-        // Handle page transitions
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.href && !e.target.href.includes('#')) {
-                e.preventDefault();
-                const href = e.target.href;
-                
-                // Fade out current page
-                document.querySelector('.page-content').classList.remove('loaded');
-                
-                // Show preloader
-                document.querySelector('.preloader').style.display = 'flex';
-                document.querySelector('.preloader').classList.remove('fade-out');
-                
-                // Navigate to new page
-                setTimeout(function() {
-                    window.location.href = href;
-                }, 500);
-            }
+        window.addEventListener('popstate', () => {
+            const preloader = document.querySelector('.preloader');
+            const content = document.querySelector('.page-content');
+            preloader.style.display = 'none';
+            content.classList.add('loaded');
         });
     </script>
     {% block extra_js %}{% endblock %}

@@ -11,10 +11,10 @@ urlpatterns = [
     path('accounts/login/',
          auth_views.LoginView.as_view(form_class=CustomAuthenticationForm),
          name='login'),
-    # 3) Всё остальное из contrib.auth (logout, password_change и т.д.)
+         
     path('accounts/', include('django.contrib.auth.urls')),
     path('user/', include('apps.user.urls')),
-    path('course/', include('apps.course.urls')),
+    path('', include('apps.course.urls')),
 
 ]
 if settings.DEBUG:

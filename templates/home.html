@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Главная - CaseTechPC{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="text-center py-5 bg-light">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Надежные ПК. Индивидуальная сборка.</h1>
+        <p class="lead mb-4">Мы поможем собрать ваш идеальный компьютер под любые задачи.</p>
+        <a href="/topics" class="btn btn-primary btn-lg"><i class="fas fa-shopping-cart me-2"></i>Перейти в каталог</a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <i class="fas fa-microchip fa-3x mb-3 text-secondary"></i>
+                <h5>Качественные детали</h5>
+                <p>Только проверенные комплектующие от топовых брендов.</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-tools fa-3x mb-3 text-secondary"></i>
+                <h5>Индивидуальная сборка</h5>
+                <p>Мы соберем ПК с учётом всех ваших требований.</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-shipping-fast fa-3x mb-3 text-secondary"></i>
+                <h5>Быстрая доставка</h5>
+                <p>Доставим в кратчайшие сроки по всей России.</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-shield-alt fa-3x mb-3 text-secondary"></i>
+                <h5>Поддержка и гарантия</h5>
+                <p>Мы не бросаем клиентов — техподдержка и гарантия всегда с вами.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section (brief) -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="mb-4">О компании CaseTechPC</h2>
+        <p class="lead">Мы — команда профессионалов, увлечённых компьютерами. Наша цель — предложить лучшее в мире кастомных ПК и комплектующих.</p>
+        <a href="/about_us" class="btn btn-outline-primary">Узнать больше</a>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 text-white" style="background-color: var(--secondary-color);">
+    <div class="container text-center">
+        <h3 class="mb-3">Нужна консультация?</h3>
+        <p class="mb-4">Оставьте заявку — мы поможем с подбором, сборкой и доставкой.</p>
+        <a href="/contact" class="btn btn-light btn-lg"><i class="fas fa-envelope me-2"></i>Связаться с нами</a>
+    </div>
+</section>
+{% endblock %}

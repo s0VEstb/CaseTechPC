@@ -1,0 +1,42 @@
+{# templates/about_us.html #}
+{% extends "base.html" %}
+
+{% block title %}О нас - CaseTechPC{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Секция "О нас" -->
+    {% for section in about_sections %}
+    <div class="row align-items-center mb-5">
+        {% if section.image %}
+        <div class="col-md-6 {% if forloop.counter|divisibleby:"2" %}order-md-2{% endif %}">
+            <img src="{{ section.image.url }}" alt="{{ section.title }}" class="img-fluid rounded shadow">
+        </div>
+        {% endif %}
+        <div class="col-md-6">
+            <h2 class="mb-3">{{ section.title }}</h2>
+            <p>{{ section.description }}</p>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Секция "Наша команда" -->
+    <h3 class="text-center mt-5 mb-4">Наша команда</h3>
+    <div class="row">
+        {% for member in team_members %}
+        <div class="col-sm-6 col-lg-4 mb-4">
+            <div class="card h-100 text-center">
+                {% if member.image %}
+                    <img src="{{ member.image.url }}" class="card-img-top team-photo" alt="{{ member.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ member.name }}</h5>
+                    <p class="text-muted">{{ member.position }}</p>
+                    <p class="card-text">{{ member.bio|linebreaksbr }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

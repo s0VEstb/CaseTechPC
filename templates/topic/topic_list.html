@@ -119,8 +119,8 @@
         {% for topic in topics %}
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="topic-card">
-                    <div class="topic-image" style="background-image: url('https://via.placeholder.com/400x200');">
-                    </div>
+                    <div class="topic-image" style="background-image: url('{% if topic.image %}{{ topic.image.url }}{% else %}https://via.placeholder.com/400x200{% endif %}');">
+</div>
                     <div class="topic-content">
                         <h3 class="topic-title">{{ topic.title }}</h3>
                         <p class="topic-description">{{ topic.description|truncatewords:30 }}</p>

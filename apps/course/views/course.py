@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, View
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Topic, Subtopic, Lesson, Enrollment, UserProgress
+from ..models.course import Topic, Subtopic, Lesson, Enrollment, UserProgress
 from django.core.paginator import Paginator
 
 

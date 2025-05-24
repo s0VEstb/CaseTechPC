@@ -7,6 +7,13 @@ from django.conf import settings
 
 
 class Topic(models.Model):
+    image = models.ImageField(
+        "Изображение темы",
+        upload_to='topic_images/',
+        blank=True,
+        null=True,
+        help_text="Загрузите изображение для темы. Рекомендуемый размер: 800x400px."
+    )
     title       = models.CharField("Заголовок темы", max_length=200)
     description = models.TextField("Описание темы", blank=True)
     order       = models.PositiveIntegerField("Порядок", default=0)
