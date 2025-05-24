@@ -5,12 +5,9 @@
 <!-- Hero Section -->
 <section class="text-center py-5 bg-light">
     <div class="container">
-
-        <h1 class="display-4 fw-bold">Надежные знания. Практическое обучение.</h1>
-        <p class="lead mb-4">Освойте ремонт ПК и углублённую теорию компьютерных систем.</p>
-        <a href="/topics" class="btn btn-primary btn-lg">
-            <i class="fas fa-graduation-cap me-2"></i>Начать обучение
-        </a>
+        <h1 class="display-4 fw-bold">IT-курсы для будущего</h1>
+        <p class="lead mb-4">Освойте востребованные цифровые навыки и начните карьеру в IT с нуля. Онлайн-обучение для всех!</p>
+        <a href="{% url 'course:topics' %}" class="btn btn-primary btn-lg"><i class="fas fa-graduation-cap me-2"></i>Перейти к курсам</a>
     </div>
 </section>
 
@@ -46,10 +43,9 @@
 <!-- About Section (brief) -->
 <section class="py-5 bg-light">
     <div class="container text-center">
-
-        <h2 class="mb-4">О компании CaseTechPC</h2>
-        <p class="lead">Мы — команда профессионалов, увлечённых компьютерным обучением. Наша цель — подготовить экспертов по ремонту и теории ПК.</p>
-        <a href="/about_us" class="btn btn-outline-primary">Узнать больше</a>
+        <h2 class="mb-4">О платформе CaseTechPC</h2>
+        <p class="lead">Мы — команда энтузиастов, которые делают IT-образование доступным. Помогаем освоить современные профессии и построить успешную карьеру в цифровом мире.</p>
+        <a href="{% url 'course:about_us' %}" class="btn btn-outline-primary">Узнать больше</a>
     </div>
 </section>
 
