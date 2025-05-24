@@ -4,7 +4,7 @@
 
 {% block extra_css %}
 <style>
-    .topic-header {
+    .catalog-header {
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         color: white;
         padding: 3rem 0;
@@ -15,38 +15,34 @@
         background: white;
         border-radius: 15px;
         overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
         height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     .topic-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
     }
 
     .topic-image {
+        width: 100%;
         height: 200px;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-    }
-
-    .topic-image::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+        object-fit: cover;
     }
 
     .topic-content {
         padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .topic-title {
         color: var(--primary-color);
+        font-size: 1.5rem;
         margin-bottom: 1rem;
         font-weight: 600;
     }
@@ -54,99 +50,182 @@
     .topic-description {
         color: #666;
         margin-bottom: 1.5rem;
+        flex-grow: 1;
     }
 
     .topic-meta {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        padding-top: 1rem;
-        border-top: 1px solid #eee;
-    }
-
-    .topic-stats {
-        display: flex;
         gap: 1rem;
-    }
-
-    .stat {
-        display: flex;
-        align-items: center;
+        margin-bottom: 1rem;
         color: #666;
         font-size: 0.9rem;
     }
 
-    .stat i {
-        margin-right: 0.5rem;
+    .topic-meta i {
         color: var(--secondary-color);
     }
 
-    .pagination {
-        margin-top: 2rem;
+    .topic-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: auto;
     }
 
-    .page-link {
+    .topic-actions .btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        font-weight: 500;
+    }
+
+    .topic-actions .btn-preview {
+        background: #f8f9fa;
         color: var(--primary-color);
-        border: none;
-        padding: 0.5rem 1rem;
-        margin: 0 0.25rem;
-        border-radius: 5px;
+        border: 1px solid #dee2e6;
     }
 
-    .page-link:hover {
-        background-color: var(--secondary-color);
+    .topic-actions .btn-preview:hover {
+        background: #e9ecef;
+        color: var(--primary-color);
+    }
+
+    .topic-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--accent-color);
         color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        z-index: 1;
     }
 
-    .page-item.active .page-link {
-        background-color: var(--secondary-color);
-        border-color: var(--secondary-color);
+    .topic-progress {
+        height: 4px;
+        background: #e9ecef;
+        border-radius: 2px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .topic-progress-bar {
+        height: 100%;
+        background: var(--secondary-color);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+        .topic-card {
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-image {
+            height: 180px;
+        }
+
+        .topic-title {
+            font-size: 1.3rem;
+        }
+
+        .topic-actions {
+            flex-direction: column;
+        }
+
+        .topic-actions .btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .catalog-header {
+            padding: 2rem 0;
+        }
+
+        .topic-image {
+            height: 160px;
+        }
+
+        .topic-content {
+            padding: 1rem;
+        }
+
+        .topic-title {
+            font-size: 1.2rem;
+        }
+
+        .topic-meta {
+            flex-wrap: wrap;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Topic Header -->
-<div class="topic-header">
+<!-- Catalog Header -->
+<div class="catalog-header">
     <div class="container">
         <h1 class="display-4 mb-3">Каталог курсов</h1>
-        <p class="lead mb-0">Выберите интересующий вас курс и начните обучение прямо сейчас</p>
+        <p class="lead mb-0">Выберите интересующий вас курс и начните обучение</p>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
         {% for topic in topics %}
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="topic-card">
-                    <div class="topic-image" style="background-image: url('{% if topic.image %}{{ topic.image.url }}{% else %}https://via.placeholder.com/400x200{% endif %}');">
-</div>
+                    {% if topic.image %}
+                        <img src="{{ topic.image.url }}" alt="{{ topic.title }}" class="topic-image">
+                    {% else %}
+                        <img src="data:image/jpeg;base64,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" alt="{{ topic.title }}" class="topic-image">
+                    {% endif %}
+                    
+                    {% if topic.is_new %}
+                        <div class="topic-badge">Новый курс</div>
+                    {% endif %}
+
                     <div class="topic-content">
-                        <h3 class="topic-title">{{ topic.title }}</h3>
-                        <p class="topic-description">{{ topic.description|truncatewords:30 }}</p>
+                        <h2 class="topic-title">{{ topic.title }}</h2>
+                        
                         <div class="topic-meta">
-                            <div class="topic-stats">
-                                <span class="stat">
-                                    <i class="fas fa-book"></i>
-                                    {{ topic.subtopics.count }} подтем
-                                </span>
-                                <span class="stat">
-                                    <i class="fas fa-users"></i>
-                                    {{ topic.students.count }} студентов
-                                </span>
+                            <span><i class="fas fa-book me-1"></i>{{ topic.subtopics.count }} уроков</span>
+                            <span><i class="fas fa-users me-1"></i>{{ topic.enrolled_users.count }} студентов</span>
+                        </div>
+
+                        {% if user.is_authenticated and topic in user.enrolled_topics.all %}
+                            <div class="topic-progress">
+                                <div class="topic-progress-bar" style="width: {{ topic.get_user_progress }}%"></div>
                             </div>
-                            {% if user in topic.students.all %}
-                                <a href="{% url 'course:subtopics' topic.id %}" class="btn btn-primary">
-                                    <i class="fas fa-play me-2"></i>Продолжить
-                                </a>
+                        {% endif %}
+
+                        <p class="topic-description">{{ topic.description|truncatewords:30 }}</p>
+
+                        <div class="topic-actions">
+                            {% if user.is_authenticated %}
+                                {% if topic in user.enrolled_topics.all %}
+                                    <a href="{% url 'course:subtopics' topic.id %}" class="btn btn-primary">
+                                        <i class="fas fa-play me-1"></i>Продолжить
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'course:enroll' topic.id %}" class="btn btn-primary">
+                                        <i class="fas fa-plus me-1"></i>Записаться
+                                    </a>
+                                {% endif %}
                             {% else %}
-                                <form method="post" action="{% url 'course:enroll' topic.id %}" class="d-inline">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-outline-primary">
-                                        <i class="fas fa-plus me-2"></i>Записаться
-                                    </button>
-                                </form>
+                                <a href="{% url 'login' %}" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Войти для записи
+                                </a>
                             {% endif %}
+                            <a href="{% url 'course:topic_preview' topic.id %}" class="btn btn-preview">
+                                <i class="fas fa-eye me-1"></i>Предпросмотр
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -159,57 +238,13 @@
             </div>
         {% endfor %}
     </div>
-
-    {% if is_paginated %}
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="First">
-                        <i class="fas fa-angle-double-left"></i>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                        <i class="fas fa-angle-left"></i>
-                    </a>
-                </li>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <li class="page-item active">
-                        <span class="page-link">{{ num }}</span>
-                    </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                        <i class="fas fa-angle-right"></i>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                        <i class="fas fa-angle-double-right"></i>
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    // Анимация появления карточек при прокрутке
     document.addEventListener('DOMContentLoaded', function() {
+        // Анимация появления карточек при прокрутке
         const cards = document.querySelectorAll('.topic-card');
         
         const observer = new IntersectionObserver((entries) => {

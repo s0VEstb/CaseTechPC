@@ -18,6 +18,89 @@
         border: 5px solid white;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         object-fit: cover;
+        position: relative;
+        background: #f8f9fa;
+    }
+
+    .avatar-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #adb5bd;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .avatar-placeholder i {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .avatar-placeholder span {
+        font-size: 0.8rem;
+        line-height: 1.2;
+    }
+
+    .avatar-upload {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: var(--primary-color);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid white;
+    }
+
+    .avatar-upload:hover {
+        transform: scale(1.1);
+        background: var(--secondary-color);
+    }
+
+    .avatar-upload input {
+        display: none;
+    }
+
+    .avatar-upload i {
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .avatar-preview {
+        position: relative;
+        display: inline-block;
+    }
+
+    .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .avatar-preview:hover .avatar-overlay {
+        opacity: 1;
+    }
+
+    .avatar-overlay i {
+        color: white;
+        font-size: 2rem;
     }
 
     .profile-stats {
@@ -91,11 +174,34 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-3 text-center">
-                {% if user.avatar %}
-                    <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="profile-avatar">
-                {% else %}
-                    <img src="https://via.placeholder.com/150" alt="{{ user.username }}" class="profile-avatar">
-                {% endif %}
+                <div class="avatar-preview">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="profile-avatar">
+                        <div class="avatar-overlay">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <label for="id_avatar" class="mb-0">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                {{ avatar_form.avatar }}
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="profile-avatar">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                                <span>Добавьте фото профиля</span>
+                            </div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" class="avatar-upload">
+                            {% csrf_token %}
+                            <label for="id_avatar" class="mb-0">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            {{ avatar_form.avatar }}
+                        </form>
+                    {% endif %}
+                </div>
             </div>
             <div class="col-md-9">
                 <h1 class="mb-3">{{ user.get_full_name|default:user.username }}</h1>
@@ -105,9 +211,6 @@
                 <p class="lead">
                     <i class="fas fa-calendar me-2"></i>На сайте с {{ user.date_joined|date:"d.m.Y" }}
                 </p>
-                <!-- <a href="/" class="btn btn-light edit-profile-btn">
-                    <i class="fas fa-edit me-2"></i>Редактировать профиль
-                </a> -->
             </div>
         </div>
     </div>
@@ -166,9 +269,9 @@
                     <div class="card-body">
                         <h5 class="card-title">Безопасность</h5>
                         <p class="card-text">Измените пароль или настройки безопасности</p>
-                        <!-- <a href="/" class="btn btn-outline-primary">
+                        <a href="{% url 'password_change' %}" class="btn btn-outline-primary">
                             <i class="fas fa-key me-2"></i>Изменить пароль
-                        </a> -->
+                        </a>
                     </div>
                 </div>
             </div>
@@ -209,8 +312,8 @@
 
 {% block extra_js %}
 <script>
-    // Анимация появления элементов при прокрутке
     document.addEventListener('DOMContentLoaded', function() {
+        // Анимация появления элементов при прокрутке
         const sections = document.querySelectorAll('.profile-section, .profile-stats');
         
         const observer = new IntersectionObserver((entries) => {
@@ -228,6 +331,14 @@
             section.style.transition = 'all 0.5s ease-out';
             observer.observe(section);
         });
+
+        // Автоматическая отправка формы при выборе файла
+        const avatarInput = document.getElementById('id_avatar');
+        if (avatarInput) {
+            avatarInput.addEventListener('change', function() {
+                this.closest('form').submit();
+            });
+        }
     });
 </script>
 {% endblock %}

@@ -5,7 +5,6 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegisterForm(UserCreationForm):
-    avatar = forms.ImageField(label='Аватар', required=False)
     username = forms.CharField(label='Имя пользователя', max_length=150, required=True)
     email = forms.EmailField(label='Email адрес', required=True)
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput, required=True)
@@ -13,7 +12,7 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password1', 'password2', 'avatar']
+        fields = ['username', 'email', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -23,11 +22,18 @@ class RegisterForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False) 
 
-        if 'avatar' in self.cleaned_data and self.cleaned_data['avatar']:
-            user.avatar = self.cleaned_data['avatar']
         if commit:
             user.save() 
         return user
+
+
+class AvatarUploadForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['avatar']
+        widgets = {
+            'avatar': forms.FileInput(attrs={'class': 'form-control'})
+        }
 
 
 class CustomAuthenticationForm(AuthenticationForm):

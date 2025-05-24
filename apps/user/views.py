@@ -1,13 +1,11 @@
 from django.views.generic.edit import FormView
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from .forms import RegisterForm
-from django.views.generic.edit import FormView
-from django.contrib.auth import login
-from django.urls import reverse_lazy
-from .forms import RegisterForm
+from .forms import RegisterForm, AvatarUploadForm
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.shortcuts import redirect
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'profile/profile.html'
@@ -16,7 +14,17 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         # Передаём текущего пользователя в шаблон
         context['user'] = self.request.user
+        context['avatar_form'] = AvatarUploadForm(instance=self.request.user)
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = AvatarUploadForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Аватар успешно обновлен')
+        else:
+            messages.error(request, 'Ошибка при загрузке аватара')
+        return redirect('profile')
 
 
 class RegisterView(FormView):
