@@ -68,6 +68,20 @@ class Lesson(models.Model):
     def __str__(self):
         return f'{self.subtopic.title} → {self.title}'
 
+    def get_previous_lesson(self):
+        """Получить предыдущий урок в той же подтеме"""
+        return Lesson.objects.filter(
+            subtopic=self.subtopic,
+            order__lt=self.order
+        ).order_by('-order').first()
+
+    def get_next_lesson(self):
+        """Получить следующий урок в той же подтеме"""
+        return Lesson.objects.filter(
+            subtopic=self.subtopic,
+            order__gt=self.order
+        ).order_by('order').first()
+
 
 class Enrollment(models.Model):
     """
