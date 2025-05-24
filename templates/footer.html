@@ -1,0 +1,34 @@
+<footer class="footer w-100">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-md-4">
+                <h5>О компании</h5>
+                <p class="mb-0">CaseTechPC — ваш надежный партнёр в мире компьютерных технологий.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Контакты</h5>
+                <p class="mb-1"><i class="fas fa-phone me-2"></i>{{ contacts.number }}</p>
+                <p class="mb-0"><i class="fas fa-envelope me-2"></i>{{ contacts.email }}</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Мы в соцсетях</h5>
+                <div class="d-flex gap-3">
+                    {% if contacts.link_1 %}
+                        <a href="{{ contacts.link_1 }}" target="_blank" class="text-white" rel="noopener"><i class="fab fa-vk fa-lg"></i></a>
+                    {% endif %}
+                    {% if contacts.link_2 %}
+                        <a href="{{ contacts.link_2 }}" target="_blank" class="text-white" rel="noopener"><i class="fab fa-telegram fa-lg"></i></a>
+                    {% endif %}
+                    {% if contacts.link_3 %}
+                        <a href="{{ contacts.link_3 }}" target="_blank" class="text-white" rel="noopener"><i class="fab fa-whatsapp fa-lg"></i></a>
+                    {% endif %}
+                    {% if contacts.link_4 %}
+                        <a href="{{ contacts.link_4 }}" target="_blank" class="text-white" rel="noopener"><i class="fab fa-instagram fa-lg"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <hr class="my-4" />
+        <div class="text-center"><p class="mb-0">&copy; {% now "Y" %} CaseTechPC. Все права защищены.</p></div>
+    </div>
+</footer>

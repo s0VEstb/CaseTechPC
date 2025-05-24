@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Контакты — CaseTechPC{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Gradient background for main contact section */
+    .contact-section {
+        background: linear-gradient(135deg, rgba(52,152,219,0.1), rgba(236,240,241,0.1));
+        border-radius: 1rem;
+        padding: 2rem;
+        transition: transform 0.3s ease;
+    }
+    .contact-section:hover {
+        transform: translateY(-5px);
+    }
+    .contact-icon {
+        font-size: 2rem;
+        color: var(--secondary-color);
+        transition: color 0.3s ease;
+    }
+    .contact-icon:hover {
+        color: var(--accent-color);
+    }
+    .contact-list a {
+        text-decoration: none;
+        color: var(--primary-color);
+        transition: color 0.3s ease;
+    }
+    .contact-list a:hover {
+        color: var(--secondary-color);
+    }
+    .divider-icon {
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        margin: 0 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block header_height %}200px{% endblock %}
+{% block header_min_height %}auto{% endblock %}
+
+{% block header_content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-transparent justify-content-center mb-0">
+    <li class="breadcrumb-item"><a href="/" class="text-white"><i class="fas fa-home me-1"></i>Главная</a></li>
+    <li class="breadcrumb-item active text-white" aria-current="page">Контакты</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="contact-section text-center p-4 h-100">
+                <i class="fas fa-phone-alt contact-icon mb-3"></i>
+                <h5 class="mb-2">Телефон</h5>
+                {% if contacts.number %}
+                <p><a href="tel:{{ contacts.number }}">{{ contacts.number }}</a></p>
+                {% else %}
+                <p class="text-muted">Не указан</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="contact-section text-center p-4 h-100">
+                <i class="fas fa-envelope contact-icon mb-3"></i>
+                <h5 class="mb-2">Электронная почта</h5>
+                {% if contacts.email %}
+                <p><a href="mailto:{{ contacts.email }}">{{ contacts.email }}</a></p>
+                {% else %}
+                <p class="text-muted">Не указана</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="contact-section text-center p-4 h-100">
+                <i class="fas fa-share-alt contact-icon mb-3"></i>
+                <h5 class="mb-2">Социальные сети</h5>
+                <div class="d-flex justify-content-center gap-4">
+                    {% if contacts.link_1 %}
+                    <a href="{{ contacts.link_1 }}" target="_blank" rel="noopener">
+                        <i class="fab fa-vk contact-icon"></i>
+                    </a>
+                    {% endif %}
+                    {% if contacts.link_2 %}
+                    <a href="{{ contacts.link_2 }}" target="_blank" rel="noopener">
+                        <i class="fab fa-telegram contact-icon"></i>
+                    </a>
+                    {% endif %}
+                    {% if contacts.link_3 %}
+                    <a href="{{ contacts.link_3 }}" target="_blank" rel="noopener">
+                        <i class="fab fa-whatsapp contact-icon"></i>
+                    </a>
+                    {% endif %}
+                    {% if contacts.link_4 %}
+                    <a href="{{ contacts.link_4 }}" target="_blank" rel="noopener">
+                        <i class="fab fa-instagram contact-icon"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-8 text-center">
+            <p class="lead">
+                
+Мы всегда готовы помочь вам с любыми вопросами и предложениями, связанными с компьютерными технологиями. Свяжитесь с нами удобным для вас способом: по телефону,
+  электронной почте или в социальных сетях. Мы ценим каждого и всегда рады помочь сделать вашу работу и
+   отдых за компьютером максимально комфортными и эффективными!</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

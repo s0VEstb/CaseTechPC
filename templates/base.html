@@ -18,58 +18,74 @@
             --accent-color: #e74c3c;
         }
 
-        .team-photo {
-        width: 100%;
-        height: 250px; /* можно изменить на любое нужное значение */
-        object-fit: cover;
-        object-position: center;
-        }
+        /* Reset margins/padding */
+        body, .page-content, .main-content { margin: 0; padding: 0; }
+        .container-fluid { padding-left: 0; padding-right: 0; }
 
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease-out;
-        }
+        /* Preloader */
+        .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary-color); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease-out; }
         .preloader.fade-out { opacity: 0; }
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--secondary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        .loader { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--secondary-color); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
-        .page-content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        .page-content.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Existing Styles */
+
+        /* Header styles */
+        .site-header { height: var(--header-height, 60vh); min-height: var(--header-min-height, 400px); background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));; position: relative; overflow: visible; color: white; display: flex; flex-direction: column; }
+        .site-header .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(44, 62, 80, 0.6); z-index: 1; }
+        .site-header .navbar { z-index: 2; padding-top: 1rem; }
+        .site-header .navbar-brand i { color: var(--secondary-color); }
+        .site-header .header-content { z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 1rem; }
+        @media (max-width: 768px) { .site-header { height: auto; padding: 4rem 0; } }
+
+        /* Content reveal */
+        .page-content { opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; }
+        .page-content.loaded { opacity: 1; transform: translateY(0); }
+
+        /* Global */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height:100vh; display:flex; flex-direction:column; }
-        .navbar { background-color: var(--primary-color); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
-        .navbar-brand { font-weight:600; color:white !important; }
-        .nav-link { color:rgba(255,255,255,0.8) !important; transition: color .3s; }
-        .nav-link:hover { color:white !important; }
         .main-content { flex:1; padding:2rem 0; }
-        .footer { background-color: var(--primary-color); color:white; padding:1.5rem 0; margin-top:auto; }
+        .footer { background-color: var(--primary-color); color:white; margin-top:auto; }
+        .footer .container { padding:1.5rem 0; }
         .btn-primary { background-color: var(--secondary-color); border-color: var(--secondary-color); }
         .btn-primary:hover { background-color:#2980b9; border-color:#2980b9; }
         .card { border:none; box-shadow:0 4px 6px rgba(0,0,0,0.1); transition:transform .3s; }
-        .card:hover { transform:translateY(-5px); }
-    </style>
+        .card:hover { transform:translateY(-5px);     
+        /* Укороченный хедер как навбар */
+        .site-header {
+            height: auto !important;
+            min-height: auto !important;
+        }
+        /* Убрать затемняющий оверлей */
+        .site-header .overlay {
+            display: none !important;
+        }
+        /* Скрыть пустой header-content */
+        .site-header .header-content {
+            display: none !important;
+        }
+    }
+</style>
+<!-- Overrides for compact header -->
+<style>
+    .site-header {
+        background-image: none !important;
+        background-color: #6c757d !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: .5rem 0;
+    }
+    .site-header .overlay,
+    .site-header .header-content {
+        display: none !important;
+    }
+    .team-photo {
+    width: 100%;
+    height: 300px; /* или другая фиксированная высота */
+    object-fit: cover;
+    object-position: center;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+</style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -77,25 +93,29 @@
     <div class="preloader">
         <div class="loader"></div>
     </div>
+
     <!-- Page Content -->
     <div class="page-content">
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" href="/">
-                    <i class="fas fa-desktop me-2"></i>CaseTechPC
+
+        <!-- Header -->
+        <header class="site-header" style="--header-height: {% block header_height %}60vh{% endblock %}; --header-min-height: {% block header_min_height %}400px{% endblock %};">
+            <div class="overlay"></div>
+            <nav class="navbar navbar-expand-lg navbar-dark container">
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <i class="fas fa-desktop fa-2x me-2"></i>
+                    <span class="fs-3 fw-bold">CaseTechPC</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Главная</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/topics"><i class="fas fa-list me-1"></i>Каталог</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/about_us"><i class="fas fa-info-circle me-1"></i>О нас</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/contact"><i class="fas fa-envelope me-1"></i>Контакты</a></li>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav align-items-lg-center">
+                        <li class="nav-item mx-2"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Главная</a></li>
+                        <li class="nav-item mx-2"><a class="nav-link" href="/topics"><i class="fas fa-list me-1"></i>Каталог</a></li>
+                        <li class="nav-item mx-2"><a class="nav-link" href="/about_us"><i class="fas fa-info-circle me-1"></i>О нас</a></li>
+                        <li class="nav-item mx-2"><a class="nav-link" href="/contact"><i class="fas fa-envelope me-1"></i>Контакты</a></li>
                         {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown mx-2">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-user-circle me-1"></i>{{ user.username }}
                             </a>
@@ -103,54 +123,57 @@
                                 <li><a class="dropdown-item" href="{% url 'accounts:profile' %}"><i class="fas fa-user me-2"></i>Профиль</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                    <form method="post" action="{% url 'logout' %}">
                                         {% csrf_token %}
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="fas fa-sign-out-alt me-2"></i>Выйти
-                                        </button>
+                                        <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Выход</button>
                                     </form>
                                 </li>
                             </ul>
                         </li>
                         {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-1"></i>Войти</a></li>
+                        <li class="nav-item mx-2"><a class="btn btn-outline-light" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-1"></i>Войти</a></li>
                         {% endif %}
                     </ul>
                 </div>
+            </nav>
+            <div class="header-content">
+                {% block header_content %}{% endblock %}
             </div>
-        </nav>
+        </header>
+
         <!-- Main Content -->
-        <main class="main-content">
-            <div class="container">
-                {% block content %}{% endblock %}
-            </div>
+        <main class="main-content container-fluid">
+            {% block content %}{% endblock %}
         </main>
+
         <!-- Footer -->
-        <footer class="footer">
+        <footer class="footer w-100">
             <div class="container">
-                <div class="row">
+                <div class="row gy-4">
                     <div class="col-md-4">
                         <h5>О компании</h5>
-                        <p>CaseTechPC - ваш надежный партнер в мире компьютерных технологий.</p>
+                        <p class="mb-0">CaseTechPC — ваш надежный партнёр в мире компьютерных технологий.</p>
                     </div>
                     <div class="col-md-4">
                         <h5>Контакты</h5>
-                        <p><i class="fas fa-phone me-2"></i>+7 (XXX) XXX-XX-XX<br><i class="fas fa-envelope me-2"></i>info@casetchpc.ru</p>
+                        <p class="mb-1"><i class="fas fa-phone me-2"></i>+996 (XXX) XXX-XXX</p>
+                        <p class="mb-0"><i class="fas fa-envelope me-2"></i>info@casetechpc.kg</p>
                     </div>
                     <div class="col-md-4">
                         <h5>Мы в соцсетях</h5>
-                        <div class="social-links">
-                            <a href="#" class="text-white me-3"><i class="fab fa-vk fa-lg"></i></a>
-                            <a href="#" class="text-white me-3"><i class="fab fa-telegram fa-lg"></i></a>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-white"><i class="fab fa-vk fa-lg"></i></a>
+                            <a href="#" class="text-white"><i class="fab fa-telegram fa-lg"></i></a>
                             <a href="#" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
                         </div>
                     </div>
                 </div>
-                <hr class="mt-4 mb-4">
+                <hr class="my-4" />
                 <div class="text-center"><p class="mb-0">&copy; {% now "Y" %} CaseTechPC. Все права защищены.</p></div>
             </div>
         </footer>
     </div>
+
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Page Loading Script -->
@@ -163,14 +186,10 @@
             setTimeout(() => preloader.style.display = 'none', 500);
         }
         document.addEventListener('DOMContentLoaded', showContent);
-        window.addEventListener('pageshow', event => {
-            if (event.persisted) showContent();
-        });
+        window.addEventListener('pageshow', event => { if (event.persisted) showContent(); });
         window.addEventListener('popstate', () => {
-            const preloader = document.querySelector('.preloader');
-            const content = document.querySelector('.page-content');
-            preloader.style.display = 'none';
-            content.classList.add('loaded');
+            document.querySelector('.preloader').style.display = 'none';
+            document.querySelector('.page-content').classList.add('loaded');
         });
     </script>
     {% block extra_js %}{% endblock %}

@@ -16,7 +16,9 @@
         border-radius: 15px;
         overflow: hidden;
         transition: all 0.3s ease;
-        height: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 100%; /* Обеспечивает одинаковую высоту */
     }
 
     .topic-card:hover {
@@ -43,6 +45,9 @@
 
     .topic-content {
         padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
     }
 
     .topic-title {
@@ -54,6 +59,7 @@
     .topic-description {
         color: #666;
         margin-bottom: 1.5rem;
+        flex-grow: 1; /* Чтобы описание занимало оставшееся пространство */
     }
 
     .topic-meta {
@@ -62,6 +68,7 @@
         align-items: center;
         padding-top: 1rem;
         border-top: 1px solid #eee;
+        margin-top: auto; /* Прижимает мета-информацию вниз */
     }
 
     .topic-stats {
@@ -105,6 +112,7 @@
 </style>
 {% endblock %}
 
+
 {% block content %}
 <!-- Topic Header -->
 <div class="topic-header">
@@ -117,40 +125,40 @@
 <div class="container">
     <div class="row">
         {% for topic in topics %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="topic-card">
-                    <div class="topic-image" style="background-image: url('{% if topic.image %}{{ topic.image.url }}{% else %}https://via.placeholder.com/400x200{% endif %}');">
-</div>
-                    <div class="topic-content">
-                        <h3 class="topic-title">{{ topic.title }}</h3>
-                        <p class="topic-description">{{ topic.description|truncatewords:30 }}</p>
-                        <div class="topic-meta">
-                            <div class="topic-stats">
-                                <span class="stat">
-                                    <i class="fas fa-book"></i>
-                                    {{ topic.subtopics.count }} подтем
-                                </span>
-                                <span class="stat">
-                                    <i class="fas fa-users"></i>
-                                    {{ topic.students.count }} студентов
-                                </span>
-                            </div>
-                            {% if user in topic.students.all %}
-                                <a href="{% url 'course:subtopics' topic.id %}" class="btn btn-primary">
-                                    <i class="fas fa-play me-2"></i>Продолжить
-                                </a>
-                            {% else %}
-                                <form method="post" action="{% url 'course:enroll' topic.id %}" class="d-inline">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-outline-primary">
-                                        <i class="fas fa-plus me-2"></i>Записаться
-                                    </button>
-                                </form>
-                            {% endif %}
-                        </div>
-                    </div>
+           <div class="col-md-6 col-lg-4 mb-4">
+    <div class="topic-card">
+        <div class="topic-image" style="background-image: url('{% if topic.image %}{{ topic.image.url }}{% else %}https://via.placeholder.com/400x200{% endif %}');"></div>
+        <div class="topic-content">
+            <h3 class="topic-title">{{ topic.title }}</h3>
+            <p class="topic-description">{{ topic.description|truncatewords:30 }}</p>
+            <div class="topic-meta">
+                <div class="topic-stats">
+                    <span class="stat">
+                        <i class="fas fa-book"></i>
+                        {{ topic.subtopics.count }} подтем
+                    </span>
+                    <span class="stat">
+                        <i class="fas fa-users"></i>
+                        {{ topic.students.count }} студентов
+                    </span>
                 </div>
+                {% if user in topic.students.all %}
+                    <a href="{% url 'course:subtopics' topic.id %}" class="btn btn-primary">
+                        <i class="fas fa-play me-2"></i>Продолжить
+                    </a>
+                {% else %}
+                    <form method="post" action="{% url 'course:enroll' topic.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-plus me-2"></i>Подробнее
+                        </button>
+                    </form>
+                {% endif %}
             </div>
+        </div>
+    </div>
+</div>
+
         {% empty %}
             <div class="col-12">
                 <div class="alert alert-info">
