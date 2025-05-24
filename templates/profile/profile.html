@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load profile_extras %}
 {% block title %}Личный кабинет - {{ user.username }}{% endblock %}
 
 {% block extra_css %}
@@ -245,9 +245,15 @@
                         <div class="enrolled-topic">
                             <h5>{{ topic.title }}</h5>
                             <p class="text-muted mb-2">{{ topic.description|truncatewords:20 }}</p>
-                            <a href="{% url 'course:subtopics' topic.id %}" class="btn btn-sm btn-primary">
-                                Перейти к курсу
-                            </a>
+                            {% with next_lesson=next_lessons|get_item:topic.id %}
+                                {% if next_lesson %}
+                                    <a href="{% url 'course:lesson_detail' next_lesson.slug %}" class="btn btn-sm btn-primary">
+                                        Продолжить урок: {{ next_lesson.title }}
+                                    </a>
+                                {% else %}
+                                    <span class="badge bg-success">Курс завершён!</span>
+                                {% endif %}
+                            {% endwith %}
                         </div>
                     </div>
                 {% endfor %}
@@ -255,7 +261,7 @@
         {% else %}
             <div class="alert alert-info">
                 <i class="fas fa-info-circle me-2"></i>Вы пока не записаны ни на один курс.
-                <a href="/course/topics" class="alert-link">Перейти в каталог</a>
+                <a href="{% url 'course:topics' %}" class="alert-link">Перейти в каталог</a>
             </div>
         {% endif %}
     </div>

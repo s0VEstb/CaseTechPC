@@ -26,6 +26,21 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
+    def get_next_lesson_for_user(self, user):
+        """
+        Возвращает следующий непройденный урок для пользователя в рамках этого курса (topic).
+        Если все уроки пройдены, возвращает None.
+        """
+        # Получаем все уроки курса по порядку
+        lessons = Lesson.objects.filter(subtopic__topic=self).order_by('subtopic__order', 'order')
+        # Получаем id пройденных уроков
+        completed_ids = set(user.userprogress_set.filter(lesson__in=lessons, completed=True).values_list('lesson_id', flat=True))
+        # Ищем первый непройденный урок
+        for lesson in lessons:
+            if lesson.id not in completed_ids:
+                return lesson
+        return None
+
 
 class Subtopic(models.Model):
     topic       = models.ForeignKey(

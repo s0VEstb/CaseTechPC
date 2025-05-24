@@ -12,6 +12,12 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
+        # Получаем все курсы, на которые записан пользователь
+        topics = user.enrolled_topics.all()
+        # Для каждого курса ищем следующий непройденный урок
+        next_lessons = {topic.id: topic.get_next_lesson_for_user(user) for topic in topics}
+        context['next_lessons'] = next_lessons
         # Передаём текущего пользователя в шаблон
         context['user'] = self.request.user
         context['avatar_form'] = AvatarUploadForm(instance=self.request.user)

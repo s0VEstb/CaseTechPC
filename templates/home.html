@@ -7,7 +7,7 @@
     <div class="container">
         <h1 class="display-4 fw-bold">IT-курсы для будущего</h1>
         <p class="lead mb-4">Освойте востребованные цифровые навыки и начните карьеру в IT с нуля. Онлайн-обучение для всех!</p>
-        <a href="/topics" class="btn btn-primary btn-lg"><i class="fas fa-graduation-cap me-2"></i>Перейти к курсам</a>
+        <a href="{% url 'course:topics' %}" class="btn btn-primary btn-lg"><i class="fas fa-graduation-cap me-2"></i>Перейти к курсам</a>
     </div>
 </section>
 
@@ -44,7 +44,7 @@
     <div class="container text-center">
         <h2 class="mb-4">О платформе CaseTechPC</h2>
         <p class="lead">Мы — команда энтузиастов, которые делают IT-образование доступным. Помогаем освоить современные профессии и построить успешную карьеру в цифровом мире.</p>
-        <a href="/about_us" class="btn btn-outline-primary">Узнать больше</a>
+        <a href="{% url 'course:about_us' %}" class="btn btn-outline-primary">Узнать больше</a>
     </div>
 </section>
 
