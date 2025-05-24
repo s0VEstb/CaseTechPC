@@ -11,7 +11,11 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        .container-fluid {
+            padding: 0;
+        }
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -27,6 +31,7 @@
         .preloader.fade-out { opacity: 0; }
         .loader { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--secondary-color); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
+<<<<<<< HEAD
 
         /* Header styles */
         .site-header { height: var(--header-height, 60vh); min-height: var(--header-min-height, 400px); background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));; position: relative; overflow: visible; color: white; display: flex; flex-direction: column; }
@@ -45,6 +50,25 @@
         .main-content { flex:1; padding:2rem 0; }
         .footer { background-color: var(--primary-color); color:white; margin-top:auto; }
         .footer .container { padding:1.5rem 0; }
+=======
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .page-content.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Existing Styles */
+        body { font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height:100vh; display:flex; flex-direction:column; }
+        .navbar { background-color: var(--primary-color); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+        .navbar-brand { font-weight:600; color:white !important; }
+        .nav-link { color:rgba(255,255,255,0.8) !important; transition: color .3s; }
+        .nav-link:hover { color:white !important; }
+        .main-content { flex:1; }
+        .footer { background-color: var(--primary-color); color:white; padding:1.5rem 0; margin-top:auto; }
+>>>>>>> db547bad5de55b961038c400b2e3199c55c0a043
         .btn-primary { background-color: var(--secondary-color); border-color: var(--secondary-color); }
         .btn-primary:hover { background-color:#2980b9; border-color:#2980b9; }
         .card { border:none; box-shadow:0 4px 6px rgba(0,0,0,0.1); transition:transform .3s; }
@@ -142,8 +166,16 @@
         </header>
 
         <!-- Main Content -->
+<<<<<<< HEAD
         <main class="main-content container-fluid">
             {% block content %}{% endblock %}
+=======
+        <main class="main-content">
+            <div class="container-fluid
+            ">
+                {% block content %}{% endblock %}
+            </div>
+>>>>>>> db547bad5de55b961038c400b2e3199c55c0a043
         </main>
 
         <!-- Footer -->

@@ -29,6 +29,21 @@ class SubtopicListView(LoginRequiredMixin, ListView):
         context['topic'] = self.topic
         return context
 
+class SubtopicListPreview(LoginRequiredMixin, ListView):
+    model = Subtopic
+    template_name = 'topic/topic_preview.html'
+    context_object_name = 'subtopics'
+    paginate_by = 5
+
+    def get_queryset(self):
+        self.topic = get_object_or_404(Topic, pk=self.kwargs['topic_id'])
+        return Subtopic.objects.filter(topic=self.topic)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['topic'] = self.topic
+        return context    
+
 
 # Список уроков для конкретной подтемы
 class LessonListView(LoginRequiredMixin, ListView):
