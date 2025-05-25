@@ -5,13 +5,14 @@
 {% block extra_css %}
 <style>
     .catalog-header {
-        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
-        color: white;
-        padding: 8rem 0 6rem;
-        margin-top: -80px;
-        position: relative;
-        overflow: hidden;
-    }
+    background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+    color: white;
+    padding: 8rem 0 6rem;
+    margin-top: -80px;
+    margin-bottom: 2rem;          /* ← вот это добавили */
+    position: relative;
+    overflow: hidden;
+}
 
     .catalog-header::before {
         content: '';

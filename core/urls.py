@@ -13,7 +13,7 @@ urlpatterns = [
     # 3) Всё остальное из contrib.auth (logout, password_change и т.д.)
     path('accounts/', include('django.contrib.auth.urls')),
     path('user/', include('apps.user.urls')),
-    path('course/', include('apps.course.urls')),
+    path('', include('apps.course.urls')),
 
 ]
 if settings.DEBUG:
