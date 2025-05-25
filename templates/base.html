@@ -20,6 +20,10 @@
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
             --accent-color: #e74c3c;
+            --gradient-start: #4776E6;
+            --gradient-end: #8E54E9;
+            --hero-gradient-start: #4776E6;
+            --hero-gradient-end: #8E54E9;
         }
 
         /* Reset margins/padding */
@@ -42,53 +46,183 @@
         }
         /* Existing Styles */
         body { font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height:100vh; display:flex; flex-direction:column; }
-        .navbar { background-color: var(--primary-color); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
-        .navbar-brand { font-weight:600; color:white !important; }
-        .nav-link { color:rgba(255,255,255,0.8) !important; transition: color .3s; }
-        .nav-link:hover { color:white !important; }
         .main-content { flex:1; }
-        .footer { background-color: var(--primary-color); color:white; padding:1.5rem 0;  margin-top: 50px;}
-        .btn-primary { background-color: var(--secondary-color); border-color: var(--secondary-color); }
-        .btn-primary:hover { background-color:#2980b9; border-color:#2980b9; }
-        .card { border:none; box-shadow:0 4px 6px rgba(0,0,0,0.1); transition:transform .3s; }
-        .card:hover { transform:translateY(-5px);     
-        /* Укороченный хедер как навбар */
-        .site-header {
-            height: auto !important;
-            min-height: auto !important;
+        .footer { background-color: var(--primary-color); color:white; padding:1.5rem 0; margin-top: 50px; }
+        /* --- Новый современный NAVBAR --- */
+        .navbar-glass {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 0;
+            transition: all 0.3s ease;
         }
-        /* Убрать затемняющий оверлей */
-        .site-header .overlay {
-            display: none !important;
+        .navbar-glass.scrolled {
+            background: linear-gradient(135deg, rgba(71, 118, 230, 0.98), rgba(142, 84, 233, 0.98));
+            padding: 0.6rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
-        /* Скрыть пустой header-content */
-        .site-header .header-content {
-            display: none !important;
+        .navbar-brand {
+            font-weight: 800;
+            color: white !important;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0.5rem 0;
         }
-    }
-</style>
-<!-- Overrides for compact header -->
-<style>
-    .site-header {
-        background-image: none !important;
-        background-color: #6c757d !important;
-        height: auto !important;
-        min-height: auto !important;
-        padding: .5rem 0;
-    }
-    .site-header .overlay,
-    .site-header .header-content {
-        display: none !important;
-    }
-    .team-photo {
-    width: 100%;
-    height: 300px; /* или другая фиксированная высота */
-    object-fit: cover;
-    object-position: center;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-}
-</style>
+        .navbar-brand i {
+            font-size: 1.8rem;
+            margin-right: 0.7rem;
+            background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+        .navbar-brand:hover i {
+            transform: rotate(-10deg);
+        }
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #fff;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 80%;
+            opacity: 1;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #fff !important;
+            transform: translateY(-1px);
+        }
+        .navbar-nav .nav-link i {
+            transition: transform 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover i {
+            transform: translateY(-2px);
+        }
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .navbar-toggler:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+        .dropdown-menu {
+            border: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: dropdownFade 0.3s ease;
+        }
+        @keyframes dropdownFade {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .dropdown-item {
+            color: var(--primary-color);
+            font-weight: 500;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+            color: white;
+            transform: translateX(5px);
+        }
+        .dropdown-item i {
+            transition: transform 0.3s ease;
+        }
+        .dropdown-item:hover i {
+            transform: translateX(3px);
+        }
+        .btn-login {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+            padding: 0.6rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(255, 255, 255, 0.97);
+                margin: 1rem -1rem -0.5rem;
+                padding: 1rem;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            }
+            .navbar-nav .nav-link {
+                color: var(--primary-color) !important;
+                padding: 0.8rem 1.2rem;
+                margin: 0.2rem 0;
+            }
+            .navbar-nav .nav-link:hover,
+            .navbar-nav .nav-link.active {
+                color: var(--gradient-start) !important;
+                background: rgba(71, 118, 230, 0.1);
+            }
+            .btn-login {
+                background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+                border: none;
+                width: 100%;
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+        }
+        /* Добавляем отступ для контента под фиксированным navbar */
+        .page-content {
+            padding-top: 80px;
+        }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -99,46 +233,75 @@
 
     <!-- Page Content -->
     <div class="page-content">
-
-        <!-- Header -->
-        <header class="site-header" style="--header-height: {% block header_height %}60vh{% endblock %}; --header-min-height: {% block header_min_height %}400px{% endblock %};">
-            <div class="overlay"></div>
-            <nav class="navbar navbar-expand-lg navbar-dark container">
-                <a class="navbar-brand d-flex align-items-center" href="/">
-                    <i class="fas fa-desktop fa-2x me-2"></i>
-                    <span class="fs-3 fw-bold">CaseTechPC</span>
+        <!-- Новый NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-glass">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <i class="fas fa-desktop"></i>
+                    <span>CaseTechPC</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'course:home' %}"><i class="fas fa-home me-1"></i>Главная</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'course:topics' %}"><i class="fas fa-list me-1"></i>Каталог</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'course:about_us' %}"><i class="fas fa-info-circle me-1"></i>О нас</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/contact"><i class="fas fa-envelope me-1"></i>Контакты</a></li>
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'course:home' %}">
+                                <i class="fas fa-home me-2"></i>Главная
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'topics' in request.path %}active{% endif %}" href="{% url 'course:topics' %}">
+                                <i class="fas fa-list me-2"></i>Каталог
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'about_us' in request.path %}active{% endif %}" href="{% url 'course:about_us' %}">
+                                <i class="fas fa-info-circle me-2"></i>О нас
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'contact' in request.path %}active{% endif %}" href="/contact">
+                                <i class="fas fa-envelope me-2"></i>Контакты
+                            </a>
+                        </li>
                         {% if user.is_authenticated %}
-                        <li class="nav-item dropdown mx-2">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle me-1"></i>{{ user.username }}
+                        <li class="nav-item dropdown ms-lg-3">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-2"></i>{{ user.username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}"><i class="fas fa-user me-2"></i>Профиль</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                                        <i class="fas fa-user me-2"></i>Профиль
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="post" action="{% url 'logout' %}">
                                         {% csrf_token %}
-                                        <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Выход</button>
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Выход
+                                        </button>
                                     </form>
                                 </li>
                             </ul>
                         </li>
                         {% else %}
-                        <li class="nav-item mx-2"><a class="btn btn-outline-light" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-1"></i>Войти</a></li>
+                        <li class="nav-item ms-lg-3">
+                            <a class="btn btn-login" href="{% url 'login' %}">
+                                <i class="fas fa-sign-in-alt me-2"></i>Войти
+                            </a>
+                        </li>
                         {% endif %}
                     </ul>
                 </div>
-            </nav>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <header class="site-header" style="--header-height: {% block header_height %}60vh{% endblock %}; --header-min-height: {% block header_min_height %}400px{% endblock %};">
+            <div class="overlay"></div>
             <div class="header-content">
                 {% block header_content %}{% endblock %}
             </div>
@@ -198,6 +361,15 @@
         window.addEventListener('popstate', () => {
             document.querySelector('.preloader').style.display = 'none';
             document.querySelector('.page-content').classList.add('loaded');
+        });
+        // Эффект затемнения navbar при прокрутке
+        document.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar-glass');
+            if (window.scrollY > 30) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         });
     </script>
     {% block extra_js %}{% endblock %}

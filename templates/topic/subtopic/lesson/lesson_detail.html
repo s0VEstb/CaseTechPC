@@ -4,233 +4,359 @@
 
 {% block extra_css %}
 <style>
-    .lesson-header {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    .lesson-detail-header {
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
         color: white;
-        padding: 3rem 0;
-        margin-bottom: 2rem;
+        padding: 8rem 0 6rem;
+        margin-top: -80px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .lesson-detail-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.4;
     }
 
     .lesson-content {
-        background: white;
-        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
         padding: 2rem;
+        margin-top: -4rem;
+        position: relative;
+        border: 1px solid rgba(71, 118, 230, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .lesson-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .lesson-meta {
+        display: flex;
+        gap: 2rem;
         margin-bottom: 2rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(71, 118, 230, 0.1);
     }
 
-    /* Стили для RichText контента */
-    .lesson-content img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        margin: 1rem 0;
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #666;
     }
 
-    .lesson-content h1, 
-    .lesson-content h2, 
-    .lesson-content h3, 
-    .lesson-content h4 {
-        color: var(--primary-color);
-        margin: 1.5rem 0 1rem;
+    .meta-item i {
+        font-size: 1.2rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    .lesson-content p {
+    .lesson-description {
+        font-size: 1.1rem;
         line-height: 1.8;
         color: #444;
+        margin-bottom: 2rem;
+    }
+
+    .lesson-video {
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .lesson-materials {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(71, 118, 230, 0.1);
+    }
+
+    .materials-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .material-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 10px;
         margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(71, 118, 230, 0.1);
     }
 
-    .lesson-content ul, 
-    .lesson-content ol {
-        margin: 1rem 0;
-        padding-left: 2rem;
+    .material-item:hover {
+        transform: translateX(10px);
+        box-shadow: 0 5px 15px rgba(71, 118, 230, 0.1);
     }
 
-    .lesson-content li {
-        margin-bottom: 0.5rem;
-        line-height: 1.6;
+    .material-item i {
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    .lesson-content blockquote {
-        border-left: 4px solid var(--secondary-color);
-        padding: 1rem;
-        margin: 1rem 0;
-        background: #f8f9fa;
-        border-radius: 0 8px 8px 0;
+    .material-info {
+        flex: 1;
     }
 
-    .lesson-content pre {
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 8px;
-        overflow-x: auto;
-        margin: 1rem 0;
+    .material-title {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.25rem;
     }
 
-    .lesson-content code {
-        background: #f8f9fa;
-        padding: 0.2rem 0.4rem;
-        border-radius: 4px;
-        font-size: 0.9em;
+    .material-size {
+        font-size: 0.9rem;
+        color: #666;
     }
 
-    .lesson-content table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 1rem 0;
+    .download-btn {
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        box-shadow: 0 4px 10px rgba(71, 118, 230, 0.2);
     }
 
-    .lesson-content th, 
-    .lesson-content td {
-        padding: 0.75rem;
-        border: 1px solid #dee2e6;
-    }
-
-    .lesson-content th {
-        background: #f8f9fa;
+    .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(71, 118, 230, 0.3);
+        color: white;
     }
 
     .breadcrumb {
-        background: transparent;
-        padding: 0;
         margin-bottom: 2rem;
     }
 
     .breadcrumb-item a {
-        color: var(--secondary-color);
+        color: rgba(255, 255, 255, 0.8);
         text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .breadcrumb-item a:hover {
+        color: white;
     }
 
     .breadcrumb-item.active {
-        color: var(--primary-color);
+        color: white;
+        opacity: 0.8;
+    }
+
+    .completion-status {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 4px 10px rgba(46, 204, 113, 0.2);
+    }
+
+    .completion-status i {
+        font-size: 1.2rem;
     }
 
     .lesson-navigation {
-        position: sticky;
-        top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(71, 118, 230, 0.1);
     }
 
-    .lesson-progress {
+    .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        color: #666;
+        transition: all 0.3s ease;
+        padding: 1rem;
+        border-radius: 10px;
         background: white;
-        border-radius: 15px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border: 1px solid rgba(71, 118, 230, 0.1);
+    }
+
+    .nav-btn:hover {
+        transform: translateX(10px);
+        box-shadow: 0 5px 15px rgba(71, 118, 230, 0.1);
+        color: var(--hero-gradient-end);
+    }
+
+    .nav-btn.prev:hover {
+        transform: translateX(-10px);
+    }
+
+    .nav-btn i {
+        font-size: 1.2rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    @media (max-width: 768px) {
+        .lesson-detail-header {
+            padding: 6rem 0 4rem;
+        }
+
+        .lesson-content {
+            padding: 1.5rem;
+            margin-top: -3rem;
+        }
+
+        .lesson-title {
+            font-size: 2rem;
+        }
+
+        .lesson-meta {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .completion-status {
+            position: static;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .lesson-navigation {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .nav-btn.prev:hover {
+            transform: translateY(-5px);
+        }
     }
 
     .progress {
         height: 8px;
         border-radius: 4px;
-        background-color: #f0f0f0;
+        background: rgba(71, 118, 230, 0.1);
         margin: 1rem 0;
     }
 
     .progress-bar {
-        background-color: var(--secondary-color);
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
         border-radius: 4px;
-    }
-
-    .completion-form {
-        background: white;
-        border-radius: 15px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    .completion-form.completed {
-        background: #f8fff8;
-        border: 1px solid #2ecc71;
+        transition: width 0.3s ease;
     }
 
     .completion-badge {
-        background: #2ecc71;
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
         color: white;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-
-    /* Стили для навигации между уроками */
-    .lesson-nav-buttons {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid #eee;
-    }
-
-    .lesson-nav-btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 500;
         display: flex;
         align-items: center;
-        padding: 1rem 1.5rem;
-        border-radius: 10px;
-        background: white;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        color: var(--primary-color);
+        gap: 0.75rem;
+        box-shadow: 0 4px 10px rgba(46, 204, 113, 0.2);
     }
 
-    .lesson-nav-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        color: var(--primary-color);
-    }
-
-    .lesson-nav-btn.prev {
-        margin-right: auto;
-    }
-
-    .lesson-nav-btn.next {
-        margin-left: auto;
-    }
-
-    .lesson-nav-btn i {
+    .completion-badge i {
         font-size: 1.2rem;
     }
 
-    .lesson-nav-btn.prev i {
-        margin-right: 0.5rem;
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(71, 118, 230, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
     }
 
-    .lesson-nav-btn.next i {
-        margin-left: 0.5rem;
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
     }
 
-    .lesson-nav-btn .nav-label {
-        font-size: 0.9rem;
-        color: #666;
-        display: block;
-        margin-bottom: 0.25rem;
+    .card.border-success {
+        border: 1px solid rgba(46, 204, 113, 0.3);
     }
 
-    .lesson-nav-btn .nav-title {
+    .card-title {
+        font-size: 1.2rem;
         font-weight: 600;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    /* Стили для индикатора прогресса чтения */
-    .reading-progress {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 4px;
-        height: 100vh;
-        background: #f0f0f0;
-        z-index: 1000;
+    .lesson-sidebar {
+        position: sticky;
+        top: 100px; /* Отступ от верха при прокрутке */
+        max-height: calc(100vh - 120px); /* Максимальная высота с учетом отступов */
+        overflow-y: auto; /* Добавляем прокрутку если контент не помещается */
     }
 
-    .reading-progress-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: var(--secondary-color);
-        transition: height 0.2s ease;
+    .lesson-sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .lesson-sidebar::-webkit-scrollbar-track {
+        background: rgba(71, 118, 230, 0.1);
+        border-radius: 3px;
+    }
+
+    .lesson-sidebar::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        border-radius: 3px;
     }
 </style>
 {% endblock %}
@@ -242,7 +368,7 @@
 </div>
 
 <!-- Lesson Header -->
-<div class="lesson-header">
+<div class="lesson-detail-header">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -265,9 +391,9 @@
             </div>
 
             <!-- Навигация между уроками -->
-            <div class="lesson-nav-buttons">
+            <div class="lesson-navigation">
                 {% if lesson.get_previous_lesson %}
-                    <a href="{% url 'course:lesson_detail' lesson.get_previous_lesson.slug %}" class="lesson-nav-btn prev">
+                    <a href="{% url 'course:lesson_detail' lesson.get_previous_lesson.slug %}" class="nav-btn prev">
                         <i class="fas fa-arrow-left"></i>
                         <div>
                             <span class="nav-label">Предыдущий урок</span>
@@ -277,7 +403,7 @@
                 {% endif %}
                 
                 {% if lesson.get_next_lesson %}
-                    <a href="{% url 'course:lesson_detail' lesson.get_next_lesson.slug %}" class="lesson-nav-btn next">
+                    <a href="{% url 'course:lesson_detail' lesson.get_next_lesson.slug %}" class="nav-btn next">
                         <div>
                             <span class="nav-label">Следующий урок</span>
                             <span class="nav-title">{{ lesson.get_next_lesson.title }}</span>
@@ -290,58 +416,62 @@
 
         <!-- Боковая панель -->
         <div class="col-lg-4">
-            <div class="lesson-navigation">
+            <div class="lesson-sidebar">
                 <!-- Прогресс -->
-                <div class="lesson-progress">
-                    <h5 class="mb-3">
-                        <i class="fas fa-chart-line me-2"></i>Ваш прогресс
-                    </h5>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" 
-                             style="width: {% if progress.completed %}100{% else %}0{% endif %}%" 
-                             aria-valuenow="{% if progress.completed %}100{% else %}0{% endif %}" 
-                             aria-valuemin="0" 
-                             aria-valuemax="100">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-chart-line me-2"></i>Ваш прогресс
+                        </h5>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {% if progress.completed %}100{% else %}0{% endif %}%" 
+                                 aria-valuenow="{% if progress.completed %}100{% else %}0{% endif %}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                            </div>
                         </div>
+                        <p class="text-muted mt-2 mb-0">
+                            {% if progress.completed %}
+                                Урок пройден
+                            {% else %}
+                                Урок не пройден
+                            {% endif %}
+                        </p>
                     </div>
-                    <p class="text-muted mt-2 mb-0">
-                        {% if progress.completed %}
-                            Урок пройден
-                        {% else %}
-                            Урок не пройден
-                        {% endif %}
-                    </p>
                 </div>
 
                 <!-- Форма завершения -->
-                <div class="completion-form {% if progress.completed %}completed{% endif %}">
-                    {% if progress.completed %}
-                        <div class="completion-badge">
-                            <i class="fas fa-check"></i>Урок пройден
-                        </div>
-                        <p class="text-muted mb-3">
-                            Вы успешно завершили этот урок. Хотите пройти его снова?
-                        </p>
-                        <form method="post" action="{% url 'course:mark_complete' lesson.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary w-100">
-                                <i class="fas fa-redo me-2"></i>Повторить урок
-                            </button>
-                        </form>
-                    {% else %}
-                        <h5 class="mb-3">
-                            <i class="fas fa-flag-checkered me-2"></i>Завершить урок
-                        </h5>
-                        <p class="text-muted mb-3">
-                            Отметьте урок как пройденный, когда закончите изучение материала.
-                        </p>
-                        <form method="post" action="{% url 'course:mark_complete' lesson.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-check me-2"></i>Отметить как пройденный
-                            </button>
-                        </form>
-                    {% endif %}
+                <div class="card {% if progress.completed %}border-success{% endif %}">
+                    <div class="card-body">
+                        {% if progress.completed %}
+                            <div class="completion-badge mb-3">
+                                <i class="fas fa-check"></i>Урок пройден
+                            </div>
+                            <p class="text-muted mb-3">
+                                Вы успешно завершили этот урок. Хотите пройти его снова?
+                            </p>
+                            <form method="post" action="{% url 'course:mark_complete' lesson.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-redo me-2"></i>Повторить урок
+                                </button>
+                            </form>
+                        {% else %}
+                            <h5 class="card-title">
+                                <i class="fas fa-flag-checkered me-2"></i>Завершить урок
+                            </h5>
+                            <p class="text-muted mb-3">
+                                Отметьте урок как пройденный, когда закончите изучение материала.
+                            </p>
+                            <form method="post" action="{% url 'course:mark_complete' lesson.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-check me-2"></i>Отметить как пройденный
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

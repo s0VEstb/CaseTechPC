@@ -3,40 +3,225 @@
 
 {% block title %}О нас - CaseTechPC{% endblock %}
 
-{% block content %}
-<div class="container py-5">
-    <!-- Секция "О нас" -->
-    {% for section in about_sections %}
-    <div class="row align-items-center mb-5">
-        {% if section.image %}
-        <div class="col-md-6 {% if forloop.counter|divisibleby:"2" %}order-md-2{% endif %}">
-            <img src="{{ section.image.url }}" alt="{{ section.title }}" class="img-fluid rounded shadow">
-        </div>
-        {% endif %}
-        <div class="col-md-6">
-            <h2 class="mb-3">{{ section.title }}</h2>
-            <p>{{ section.description }}</p>
-        </div>
-    </div>
-    {% endfor %}
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        padding: 8rem 0 6rem;
+        color: white;
+        margin-top: -80px;
+        position: relative;
+        overflow: hidden;
+    }
 
-    <!-- Секция "Наша команда" -->
-    <h3 class="text-center mt-5 mb-4">Наша команда</h3>
-    <div class="row">
-        {% for member in team_members %}
-        <div class="col-sm-6 col-lg-4 mb-4">
-            <div class="card h-100 text-center">
-                {% if member.image %}
-                    <img src="{{ member.image.url }}" class="card-img-top team-photo" alt="{{ member.name }}">
+    .about-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.4;
+    }
+
+    .about-hero h1 {
+        font-size: 3.2rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        letter-spacing: -1px;
+    }
+
+    .about-hero p {
+        font-size: 1.4rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .about-section {
+        padding: 6rem 0;
+        position: relative;
+    }
+
+    .about-section:nth-child(even) {
+        background: #f8f9fa;
+    }
+
+    .about-card {
+        background: white;
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .about-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(71, 118, 230, 0.1);
+    }
+
+    .about-card img {
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .about-card:hover img {
+        transform: scale(1.02);
+    }
+
+    .about-card h2 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .about-card p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #555;
+    }
+
+    .team-section {
+        padding: 6rem 0;
+        background: white;
+    }
+
+    .team-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 3rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .team-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        height: 100%;
+    }
+
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(71, 118, 230, 0.1);
+    }
+
+    .team-photo {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+
+    .team-card:hover .team-photo {
+        transform: scale(1.05);
+    }
+
+    .team-info {
+        padding: 2rem;
+    }
+
+    .team-name {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .team-position {
+        color: var(--secondary-color);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .team-bio {
+        color: #555;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .about-hero {
+            padding: 7rem 0 4rem;
+        }
+        .about-hero h1 {
+            font-size: 2.4rem;
+        }
+        .about-card {
+            padding: 2rem;
+        }
+        .about-card h2 {
+            font-size: 2rem;
+        }
+        .team-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="about-hero text-center">
+    <div class="container">
+        <h1>О компании CaseTechPC</h1>
+        <p>Мы создаем будущее IT-образования, делая его доступным и эффективным для каждого</p>
+    </div>
+</section>
+
+<!-- About Sections -->
+<div class="about-section">
+    <div class="container">
+        {% for section in about_sections %}
+        <div class="about-card">
+            <div class="row align-items-center">
+                {% if section.image %}
+                <div class="col-lg-6 {% if forloop.counter|divisibleby:"2" %}order-lg-2{% endif %}">
+                    <img src="{{ section.image.url }}" alt="{{ section.title }}" class="img-fluid">
+                </div>
                 {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ member.name }}</h5>
-                    <p class="text-muted">{{ member.position }}</p>
-                    <p class="card-text">{{ member.bio|linebreaksbr }}</p>
+                <div class="col-lg-6">
+                    <h2>{{ section.title }}</h2>
+                    <p>{{ section.description }}</p>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+<!-- Team Section -->
+<section class="team-section">
+    <div class="container">
+        <h2 class="team-title">Наша команда</h2>
+        <div class="row">
+            {% for member in team_members %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="team-card">
+                    {% if member.image %}
+                    <img src="{{ member.image.url }}" class="team-photo" alt="{{ member.name }}">
+                    {% endif %}
+                    <div class="team-info">
+                        <h3 class="team-name">{{ member.name }}</h3>
+                        <div class="team-position">{{ member.position }}</div>
+                        <p class="team-bio">{{ member.bio|linebreaksbr }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

@@ -1,61 +1,310 @@
 {% extends "base.html" %}
 {% block title %}Главная - CaseTechPC{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Обновленные переменные для согласованности */
+    :root {
+        --hero-gradient-start: #4776E6;
+        --hero-gradient-end: #8E54E9;
+        --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        color: white;
+        padding: 8rem 0 6rem 0;
+        position: relative;
+        overflow: hidden;
+        margin-top: -80px; /* Компенсируем отступ navbar */
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.4;
+    }
+
+    .hero-illustration {
+        max-width: 480px;
+        width: 100%;
+        margin: 0 auto;
+        display: block;
+        filter: drop-shadow(0 20px 40px rgba(0,0,0,0.2));
+        border-radius: 1.5rem;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .hero-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        letter-spacing: -1px;
+        line-height: 1.2;
+    }
+
+    .hero-lead {
+        font-size: 1.4rem;
+        margin-bottom: 2.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 400;
+        line-height: 1.6;
+    }
+
+    .hero-btn {
+        font-size: 1.15rem;
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+
+    .hero-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+
+    .features-section {
+        background: #f8f9fa;
+        padding: 6rem 0 5rem 0;
+        position: relative;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        padding: 2.5rem 2rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+        min-height: 340px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(71, 118, 230, 0.1);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    .about-section {
+        padding: 6rem 0;
+        background: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+    }
+
+    .about-lead {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 2rem;
+        line-height: 1.8;
+    }
+
+    .about-image {
+        max-width: 420px;
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+    }
+
+    .about-image:hover {
+        transform: scale(1.02);
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        color: white;
+        padding: 5rem 0;
+        text-align: center;
+        border-radius: 24px;
+        margin: 4rem 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,165.3C672,160,768,96,864,74.7C960,53,1056,75,1152,96C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.4;
+    }
+
+    .cta-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+    }
+
+    .cta-lead {
+        font-size: 1.2rem;
+        margin-bottom: 2.5rem;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .cta-btn {
+        font-size: 1.15rem;
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .hero-section { padding: 7rem 0 4rem 0; }
+        .hero-title { font-size: 2.4rem; }
+        .about-title, .cta-title { font-size: 2rem; }
+        .feature-card { min-height: 280px; padding: 2rem 1.5rem; }
+        .cta-section { margin: 2rem 1rem; padding: 4rem 1rem; }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
-<section class="text-center py-5 bg-light">
+<section class="hero-section">
     <div class="container">
-        <h1 class="display-4 fw-bold">IT-курсы для будущего</h1>
-        <p class="lead mb-4">Освойте востребованные цифровые навыки и начните карьеру в IT с нуля. Онлайн-обучение для всех!</p>
-        <a href="{% url 'course:topics' %}" class="btn btn-primary btn-lg"><i class="fas fa-graduation-cap me-2"></i>Перейти к курсам</a>
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-md-3">
-
-                <i class="fas fa-tools fa-3x mb-3 text-secondary"></i>
-                <h5>Практический ремонт</h5>
-                <p>Научитесь диагностировать и устранять неполадки ПК.</p>
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
+                <h1 class="hero-title">Погрузитесь в мир современных IT-технологий</h1>
+                <p class="hero-lead">Изучайте программирование, аналитику и дизайн под руководством опытных наставников. Создавайте реальные проекты и развивайте карьеру в IT.</p>
+                <a href="{% url 'course:topics' %}" class="btn hero-btn">
+                    <i class="fas fa-rocket me-2"></i>Начать обучение
+                </a>
             </div>
-            <div class="col-md-3">
-                <i class="fas fa-book-open fa-3x mb-3 text-secondary"></i>
-                <h5>Теория компьютеров</h5>
-                <p>Углублённые знания о архитектуре и компонентах.</p>
-            </div>
-            <div class="col-md-3">
-                <i class="fas fa-cogs fa-3x mb-3 text-secondary"></i>
-                <h5>Сборка и настройка</h5>
-                <p>Пошаговые уроки по сборке и оптимизации системы.</p>
-            </div>
-            <div class="col-md-3">
-                <i class="fas fa-network-wired fa-3x mb-3 text-secondary"></i>
-                <h5>Сетевые основы</h5>
-                <p>Изучите базовые принципы и настройку локальных сетей.</p>
+            <div class="col-lg-6">
+                <img src="https://assets-global.website-files.com/5f6b7b6b5b8b7b6b5b8b7b6b/63e3b7b6b5b8b7b6b5b8b7b6_hero-illustration.svg" alt="IT Education" class="hero-illustration">
             </div>
         </div>
     </div>
 </section>
 
-<!-- About Section (brief) -->
-<section class="py-5 bg-light">
-    <div class="container text-center">
-        <h2 class="mb-4">О платформе CaseTechPC</h2>
-        <p class="lead">Мы — команда энтузиастов, которые делают IT-образование доступным. Помогаем освоить современные профессии и построить успешную карьеру в цифровом мире.</p>
-        <a href="{% url 'course:about_us' %}" class="btn btn-outline-primary">Узнать больше</a>
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="fas fa-laptop-code"></i></span>
+                    <h3 class="feature-title">Современные программы</h3>
+                    <p>Актуальные курсы по самым востребованным направлениям в IT: Python, веб-разработка, аналитика данных и DevOps.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+                    <h3 class="feature-title">Опытные наставники</h3>
+                    <p>Обучение у практикующих специалистов с реальным опытом в индустрии и персональной поддержкой.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="fas fa-user-graduate"></i></span>
+                    <h3 class="feature-title">Для всех уровней</h3>
+                    <p>Программы для начинающих и продвинутых. Индивидуальный подход и гибкая система обучения.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <span class="feature-icon"><i class="fas fa-certificate"></i></span>
+                    <h3 class="feature-title">Сертификация</h3>
+                    <p>Получите сертификат о прохождении курса и создайте портфолио реальных проектов.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <h2 class="about-title">О платформе CaseTechPC</h2>
+                <p class="about-lead">Мы создаем образовательную экосистему, где каждый может освоить современные IT-профессии. Наша миссия — сделать качественное технологическое образование доступным для всех.</p>
+                <a href="{% url 'course:about_us' %}" class="btn hero-btn">
+                    <i class="fas fa-info-circle me-2"></i>Узнать больше
+                </a>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/education-1974369_1280.png" alt="About IT Education" class="about-image">
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="py-5 text-white" style="background-color: var(--secondary-color);">
-    <div class="container text-center">
-
-        <h3 class="mb-3">Нужна консультация?</h3>
-        <p class="mb-4">Оставьте заявку — мы поможем подобрать программу обучения и расписание занятий.</p>
-        <a href="/contact" class="btn btn-light btn-lg"><i class="fas fa-envelope me-2"></i>Связаться с нами</a>
+<section class="cta-section">
+    <div class="container">
+        <h2 class="cta-title">Готовы начать свой путь в IT?</h2>
+        <p class="cta-lead">Свяжитесь с нами — поможем выбрать курс, расскажем о процессе обучения и ответим на все вопросы.</p>
+        <a href="{% url 'course:contacts' %}" class="btn cta-btn">
+            <i class="fas fa-paper-plane me-2"></i>Связаться с нами
+        </a>
     </div>
 </section>
 {% endblock %}
