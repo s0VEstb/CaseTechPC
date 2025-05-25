@@ -47,7 +47,96 @@
         /* Existing Styles */
         body { font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height:100vh; display:flex; flex-direction:column; }
         .main-content { flex:1; }
-        .footer { background-color: var(--primary-color); color:white; padding:1.5rem 0; margin-top: 50px; }
+        .footer {
+            position: relative;
+            background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 100px;
+            overflow: hidden;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100"><path fill="%234776E6" fill-opacity="0.2" d="M0,60L48,65C96,70,192,80,288,80C384,80,480,70,576,65C672,60,768,60,864,65C960,70,1056,80,1152,80C1248,80,1344,70,1392,65L1440,60L1440,100L1392,100C1344,100,1248,100,1152,100C1056,100,960,100,864,100C768,100,672,100,576,100C480,100,384,100,288,100C192,100,96,100,48,100L0,100Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        .footer-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .footer-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        .footer h5 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 2px;
+        }
+        .footer p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+        .footer-contact:hover {
+            transform: translateX(10px);
+            color: white;
+        }
+        .footer-contact i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .footer-social a {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .footer-social a:hover {
+            color: white;
+            transform: translateY(-5px);
+        }
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
         /* --- Новый современный NAVBAR --- */
         .navbar-glass {
             position: fixed;
@@ -322,25 +411,44 @@
             <div class="container">
                 <div class="row gy-4">
                     <div class="col-md-4">
-                        <h5>О компании</h5>
-                        <p class="mb-0">CaseTechPC — ваш надежный партнёр в мире компьютерных технологий.</p>
+                        <div class="footer-card">
+                            <h5>О компании</h5>
+                            <p class="mb-0">CaseTechPC — ваш надежный партнёр в мире компьютерных технологий. Мы предоставляем качественные услуги и обучение в сфере IT.</p>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <h5>Контакты</h5>
-                        <p class="mb-1"><i class="fas fa-phone me-2"></i>+996 (XXX) XXX-XXX</p>
-                        <p class="mb-0"><i class="fas fa-envelope me-2"></i>info@casetechpc.kg</p>
+                        <div class="footer-card">
+                            <h5>Контакты</h5>
+                            <a href="tel:+996XXX-XXX-XXX" class="footer-contact text-decoration-none">
+                                <i class="fas fa-phone"></i>
+                                <span>+996 (XXX) XXX-XXX</span>
+                            </a>
+                            <a href="mailto:info@casetechpc.kg" class="footer-contact text-decoration-none">
+                                <i class="fas fa-envelope"></i>
+                                <span>info@casetechpc.kg</span>
+                            </a>
+                            <div class="footer-contact">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>г. Бишкек, ул. Примерная 123</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <h5>Мы в соцсетях</h5>
-                        <div class="d-flex gap-3">
-                            <a href="#" class="text-white"><i class="fab fa-vk fa-lg"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-telegram fa-lg"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
+                        <div class="footer-card">
+                            <h5>Мы в соцсетях</h5>
+                            <p class="mb-3">Следите за нашими новостями и обновлениями в социальных сетях:</p>
+                            <div class="footer-social">
+                                <a href="#" title="ВКонтакте"><i class="fab fa-vk"></i></a>
+                                <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
+                                <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <hr class="my-4" />
-                <div class="text-center"><p class="mb-0">&copy; {% now "Y" %} CaseTechPC. Все права защищены.</p></div>
+                <div class="footer-bottom">
+                    <p class="mb-0">&copy; {% now "Y" %} CaseTechPC. Все права защищены.</p>
+                </div>
             </div>
         </footer>
     </div>
