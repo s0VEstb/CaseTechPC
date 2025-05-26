@@ -36,13 +36,13 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             messages.success(request, 'Аватар успешно обновлен')
         else:
             messages.error(request, 'Ошибка при загрузке аватара')
-        return redirect('profile')
+        return redirect('accounts:profile')
 
 
 class RegisterView(FormView):
     template_name = 'registration/register.html'
     form_class = RegisterForm
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('accounts:profile')
 
     def form_valid(self, form):
         user = form.save() # Это сработает, если form был инициализирован с request.FILES
