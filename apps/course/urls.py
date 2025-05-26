@@ -1,5 +1,4 @@
 from django.urls import path
-
 from .views import (TopicListView, SubtopicListView, LessonListView, LessonDetailView,
                      EnrollInTopicView, MarkLessonCompletedView, SubtopicListPreview)
 from .views import about_us, home_view, contacts_view

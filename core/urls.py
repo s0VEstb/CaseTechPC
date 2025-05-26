@@ -6,13 +6,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('accounts/', include(('apps.user.urls', 'accounts'), namespace='accounts')),
     path('accounts/login/',
          auth_views.LoginView.as_view(form_class=CustomAuthenticationForm),
          name='login'),
     # 3) Всё остальное из contrib.auth (logout, password_change и т.д.)
     path('accounts/', include('django.contrib.auth.urls')),
-    path('user/', include('apps.user.urls')),
+    
     path('', include('apps.course.urls')),
 
 ]

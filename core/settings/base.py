@@ -7,8 +7,8 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = config("DEBUG") == 'True'
-PROD = config("PROD") == 'True'
+DEBUG = config("DEBUG", default=False, cast=bool)
+PROD = config("PROD", default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -71,17 +71,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
