@@ -347,6 +347,167 @@
         color: white;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .course-progress-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(71, 118, 230, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .course-progress-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(71, 118, 230, 0.15);
+    }
+
+    .course-header {
+        position: relative;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        color: white;
+    }
+
+    .course-image, .course-image-placeholder {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+    }
+
+    .course-image-placeholder {
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .course-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .progress-info {
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        border-bottom: 1px solid rgba(71, 118, 230, 0.1);
+    }
+
+    .progress-circle {
+        position: relative;
+        width: 120px;
+        height: 120px;
+    }
+
+    .progress-ring-circle-bg {
+        fill: none;
+        stroke: rgba(71, 118, 230, 0.1);
+        stroke-width: 8;
+    }
+
+    .progress-ring-circle {
+        fill: none;
+        stroke: url(#gradient);
+        stroke-width: 8;
+        stroke-linecap: round;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+        transition: stroke-dashoffset 0.3s ease;
+    }
+
+    .progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .progress-percentage {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        line-height: 1;
+    }
+
+    .progress-label {
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .progress-stats {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 0.5rem;
+        background: rgba(71, 118, 230, 0.05);
+        border-radius: 10px;
+    }
+
+    .stat-value {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .course-actions {
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .course-completed {
+        color: #2ecc71;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .course-completed i {
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+        .courses-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .progress-info {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .progress-stats {
+            width: 100%;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -417,85 +578,119 @@
 
 <!-- Content Section -->
 <section class="content-section">
-    <div class="container">
-        <!-- Enrolled Courses -->
-        <div class="section-card">
-            <h3 class="section-title">
-                <i class="fas fa-graduation-cap"></i>
-                Мои курсы
-            </h3>
-            {% if user.enrolled_topics.all %}
-                <div class="row">
-                    {% for topic in user.enrolled_topics.all %}
-                        <div class="col-md-6">
-                            <div class="course-card">
-                                <h4 class="course-title">{{ topic.title }}</h4>
-                                <p class="course-description">{{ topic.description|truncatewords:20 }}</p>
-                                {% with next_lesson=next_lessons|get_item:topic.id %}
-                                    {% if next_lesson %}
-                                        <a href="{% url 'course:lesson_detail' next_lesson.slug %}" class="btn btn-continue">
-                                            <i class="fas fa-play me-2"></i>Продолжить урок
-                                        </a>
-                                    {% else %}
-                                        <span class="badge bg-success">
-                                            <i class="fas fa-check me-1"></i>Курс завершён!
-                                        </span>
-                                    {% endif %}
-                                {% endwith %}
+    <!-- Enrolled Courses -->
+    <div class="section-card">
+        <h3 class="section-title">
+            <i class="fas fa-graduation-cap"></i>
+            Мои курсы
+        </h3>
+        {% if user.enrolled_topics.all %}
+            <div class="courses-grid">
+                {% for topic in user.enrolled_topics.all %}
+                    {% with progress=topic.get_progress_for_user user %}
+                    <div class="course-progress-card">
+                        <div class="course-header">
+                            {% if topic.image %}
+                                <img src="{{ topic.image.url }}" alt="{{ topic.title }}" class="course-image">
+                            {% else %}
+                                <div class="course-image-placeholder">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                            {% endif %}
+                            <h4 class="course-title">{{ topic.title }}</h4>
+                        </div>
+                        
+                        <div class="progress-info">
+                            <div class="progress-circle" data-progress="{{ progress.percentage }}">
+                                <svg class="progress-ring" width="120" height="120">
+                                    <circle class="progress-ring-circle-bg" cx="60" cy="60" r="54"/>
+                                    <circle class="progress-ring-circle" cx="60" cy="60" r="54"/>
+                                </svg>
+                                <div class="progress-text">
+                                    <span class="progress-percentage">{{ progress.percentage }}%</span>
+                                    <span class="progress-label">завершено</span>
+                                </div>
+                            </div>
+                            <div class="progress-stats">
+                                <div class="stat-item">
+                                    <span class="stat-value">{{ progress.completed }}</span>
+                                    <span class="stat-label">пройдено уроков</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">{{ progress.total }}</span>
+                                    <span class="stat-label">всего уроков</span>
+                                </div>
                             </div>
                         </div>
-                    {% endfor %}
+
+                        <div class="course-actions">
+                            {% with next_lesson=next_lessons|get_item:topic.id %}
+                                {% if next_lesson %}
+                                    <a href="{% url 'course:lesson_detail' next_lesson.slug %}" class="btn btn-continue">
+                                        <i class="fas fa-play me-2"></i>Продолжить обучение
+                                    </a>
+                                {% else %}
+                                    <div class="course-completed">
+                                        <i class="fas fa-check-circle"></i>
+                                        Курс завершён!
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>Вы пока не записаны ни на один курс.
+                <a href="{% url 'course:topics' %}" class="alert-link">Перейти в каталог</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Account Settings -->
+    <div class="section-card">
+        <h3 class="section-title">
+            <i class="fas fa-cog"></i>
+            Настройки аккаунта
+        </h3>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="settings-card">
+                    <h5 class="settings-title">Безопасность</h5>
+                    <p class="settings-description">Измените пароль или настройки безопасности вашего аккаунта</p>
+                    <a href="{% url 'password_change' %}" class="btn btn-settings">
+                        <i class="fas fa-key me-2"></i>Изменить пароль
+                    </a>
                 </div>
-            {% else %}
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle me-2"></i>Вы пока не записаны ни на один курс.
-                    <a href="{% url 'course:topics' %}" class="alert-link">Перейти в каталог</a>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="settings-card">
+                    <h5 class="settings-title">Уведомления</h5>
+                    <p class="settings-description">Настройте параметры уведомлений о новых курсах и обновлениях</p>
+                    <a href="#" class="btn btn-settings">
+                        <i class="fas fa-bell me-2"></i>Настройки уведомлений
+                    </a>
                 </div>
-            {% endif %}
+            </div>
         </div>
 
-        <!-- Account Settings -->
-        <div class="section-card">
-            <h3 class="section-title">
-                <i class="fas fa-cog"></i>
-                Настройки аккаунта
-            </h3>
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="settings-card">
-                        <h5 class="settings-title">Безопасность</h5>
-                        <p class="settings-description">Измените пароль или настройки безопасности вашего аккаунта</p>
-                        <a href="{% url 'password_change' %}" class="btn btn-settings">
-                            <i class="fas fa-key me-2"></i>Изменить пароль
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="settings-card">
-                        <h5 class="settings-title">Уведомления</h5>
-                        <p class="settings-description">Настройте параметры уведомлений о новых курсах и обновлениях</p>
-                        <a href="#" class="btn btn-settings">
-                            <i class="fas fa-bell me-2"></i>Настройки уведомлений
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Logout Section -->
-            <div class="settings-card mt-4">
-                <h5 class="settings-title text-danger">
-                    <i class="fas fa-sign-out-alt me-2"></i>Выход из аккаунта
-                </h5>
-                <p class="settings-description">Вы уверены, что хотите выйти из своего аккаунта?</p>
-                <form method="post" action="{% url 'logout' %}" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger-soft">
-                        <i class="fas fa-sign-out-alt me-2"></i>Выйти
-                    </button>
-                </form>
-            </div>
+        <!-- Logout Section -->
+        <div class="settings-card mt-4">
+            <h5 class="settings-title text-danger">
+                <i class="fas fa-sign-out-alt me-2"></i>Выход из аккаунта
+            </h5>
+            <p class="settings-description">Вы уверены, что хотите выйти из своего аккаунта?</p>
+            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger-soft">
+                    <i class="fas fa-sign-out-alt me-2"></i>Выйти
+                </button>
+            </form>
         </div>
     </div>
+</div>
 </section>
 {% endblock %}
 
@@ -546,6 +741,36 @@
                 }
             });
         }
+
+        // Анимация круговых прогресс-баров
+        const circles = document.querySelectorAll('.progress-circle');
+        
+        circles.forEach(circle => {
+            const progress = circle.dataset.progress;
+            const circumference = 2 * Math.PI * 54; // r=54
+            const offset = circumference - (progress / 100) * circumference;
+            
+            const ring = circle.querySelector('.progress-ring-circle');
+            ring.style.strokeDasharray = `${circumference} ${circumference}`;
+            ring.style.strokeDashoffset = circumference;
+            
+            // Добавляем градиент
+            const svg = circle.querySelector('svg');
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            gradient.setAttribute('id', 'gradient');
+            gradient.innerHTML = `
+                <stop offset="0%" stop-color="var(--hero-gradient-start)"/>
+                <stop offset="100%" stop-color="var(--hero-gradient-end)"/>
+            `;
+            defs.appendChild(gradient);
+            svg.insertBefore(defs, svg.firstChild);
+            
+            // Анимация
+            setTimeout(() => {
+                ring.style.strokeDashoffset = offset;
+            }, 100);
+        });
     });
 </script>
 {% endblock %}

@@ -26,6 +26,34 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
+    def get_progress_for_user(self, user):
+        """
+        Возвращает прогресс пользователя по теме в процентах и статистику
+        """
+        # Получаем все уроки темы
+        lessons = Lesson.objects.filter(subtopic__topic=self)
+        total_lessons = lessons.count()
+        
+        if total_lessons == 0:
+            return {
+                'percentage': 0,
+                'completed': 0,
+                'total': 0
+            }
+        
+        # Получаем количество пройденных уроков
+        completed_lessons = UserProgress.objects.filter(
+            user=user,
+            lesson__in=lessons,
+            completed=True
+        ).count()
+        
+        return {
+            'percentage': int((completed_lessons / total_lessons) * 100),
+            'completed': completed_lessons,
+            'total': total_lessons
+        }
+
     def get_next_lesson_for_user(self, user):
         """
         Возвращает следующий непройденный урок для пользователя в рамках этого курса (topic).
