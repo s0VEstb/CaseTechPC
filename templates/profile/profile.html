@@ -587,7 +587,7 @@
         {% if user.enrolled_topics.all %}
             <div class="courses-grid">
                 {% for topic in user.enrolled_topics.all %}
-                    {% with progress=topic.get_progress_for_user user %}
+                {% with topic_progress=progress_data|get_item:topic.id %}
                     <div class="course-progress-card">
                         <div class="course-header">
                             {% if topic.image %}
@@ -601,23 +601,23 @@
                         </div>
                         
                         <div class="progress-info">
-                            <div class="progress-circle" data-progress="{{ progress.percentage }}">
+                            <div class="progress-circle" data-progress="{{ topic_progress.percentage }}">
                                 <svg class="progress-ring" width="120" height="120">
                                     <circle class="progress-ring-circle-bg" cx="60" cy="60" r="54"/>
                                     <circle class="progress-ring-circle" cx="60" cy="60" r="54"/>
                                 </svg>
                                 <div class="progress-text">
-                                    <span class="progress-percentage">{{ progress.percentage }}%</span>
+                                    <span class="progress-percentage">{{ topic_progress.percentage }}%</span>
                                     <span class="progress-label">завершено</span>
                                 </div>
                             </div>
                             <div class="progress-stats">
                                 <div class="stat-item">
-                                    <span class="stat-value">{{ progress.completed }}</span>
+                                    <span class="stat-value">{{ topic_progress.completed }}</span>
                                     <span class="stat-label">пройдено уроков</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-value">{{ progress.total }}</span>
+                                    <span class="stat-value">{{ topic_progress.total }}</span>
                                     <span class="stat-label">всего уроков</span>
                                 </div>
                             </div>

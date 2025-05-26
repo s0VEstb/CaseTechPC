@@ -15,8 +15,14 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         user = self.request.user
         # Получаем все курсы, на которые записан пользователь
         topics = user.enrolled_topics.all()
+        progress_data = {}
+
+        for topic in topics:
+            progress_data[topic.id] = topic.get_progress_for_user(user)
+
         # Для каждого курса ищем следующий непройденный урок
         next_lessons = {topic.id: topic.get_next_lesson_for_user(user) for topic in topics}
+        context['progress_data'] = progress_data
         context['next_lessons'] = next_lessons
         # Передаём текущего пользователя в шаблон
         context['user'] = self.request.user
