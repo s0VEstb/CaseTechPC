@@ -508,6 +508,56 @@
             width: 100%;
         }
     }
+
+    .celebration-card {
+        background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));
+        color: white;
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .celebration-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.2;
+    }
+
+    .celebration-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .celebration-text {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 0;
+        position: relative;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .celebration-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: inline-block;
+        animation: float 3s ease-in-out infinite;
+    }
 </style>
 {% endblock %}
 
@@ -578,6 +628,13 @@
 
 <!-- Content Section -->
 <section class="content-section">
+    <!-- Celebration Card (if all courses completed) -->
+    <div id="celebrationCard" style="display: none;" class="celebration-card">
+        <div class="celebration-icon">🎓</div>
+        <h2 class="celebration-title">Поздравляем!</h2>
+        <p class="celebration-text">Вы успешно завершили все курсы! Это потрясающее достижение!</p>
+    </div>
+
     <!-- Enrolled Courses -->
     <div class="section-card">
         <h3 class="section-title">
@@ -695,6 +752,8 @@
 {% endblock %}
 
 {% block extra_js %}
+<!-- Add Confetti JS -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Анимация появления элементов
@@ -742,12 +801,52 @@
             });
         }
 
+        // Check if all courses are completed
+        const progressCircles = document.querySelectorAll('.progress-circle');
+        let allCompleted = true;
+        
+        progressCircles.forEach(circle => {
+            const progress = parseInt(circle.dataset.progress);
+            if (progress < 100) {
+                allCompleted = false;
+            }
+        });
+
+        // If all courses are completed, show celebration
+        if (allCompleted && progressCircles.length > 0) {
+            const celebrationCard = document.getElementById('celebrationCard');
+            celebrationCard.style.display = 'block';
+            
+            // Оптимизированное конфетти
+            const defaults = {
+                spread: 360,
+                ticks: 100,
+                gravity: 0.5,
+                decay: 0.94,
+                startVelocity: 30,
+                particleCount: 30,
+                scalar: 0.5
+            };
+
+            confetti({
+                ...defaults,
+                particleCount: 20,
+                origin: { x: 0.2, y: 0.7 }
+            });
+
+            confetti({
+                ...defaults,
+                particleCount: 20,
+                origin: { x: 0.8, y: 0.7 }
+            });
+        }
+
         // Анимация круговых прогресс-баров
         const circles = document.querySelectorAll('.progress-circle');
         
         circles.forEach(circle => {
             const progress = circle.dataset.progress;
-            const circumference = 2 * Math.PI * 54; // r=54
+            const circumference = 2 * Math.PI * 54;
             const offset = circumference - (progress / 100) * circumference;
             
             const ring = circle.querySelector('.progress-ring-circle');
