@@ -561,7 +561,7 @@
             <div class="row">
                 <div class="col-md-4 stat-item">
                     <div class="stat-number">{{ user.enrolled_topics.count }}</div>
-                    <div class="stat-label">Записан на курсы</div>
+                    <div class="stat-label">Записан на темы</div>
                 </div>
                 <div class="col-md-4 stat-item">
                     <div class="stat-number">{{ user.date_joined|date:"Y" }}</div>
@@ -632,7 +632,7 @@
                                 {% else %}
                                     <div class="course-completed">
                                         <i class="fas fa-check-circle"></i>
-                                        Курс завершён!
+                                        Тема завершена!
                                     </div>
                                 {% endif %}
                             {% endwith %}
@@ -643,7 +643,7 @@
             </div>
         {% else %}
             <div class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i>Вы пока не записаны ни на один курс.
+                <i class="fas fa-info-circle me-2"></i>Вы пока не записаны ни на одну тему.
                 <a href="{% url 'course:topics' %}" class="alert-link">Перейти в каталог</a>
             </div>
         {% endif %}

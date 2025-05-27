@@ -273,21 +273,14 @@
                 <i class="fas fa-book"></i>
                 <span>{{ topic.subtopics.count }} подтем</span>
             </div>
-            <div class="meta-item">
-                <i class="fas fa-users"></i>
-                <span>{{ topic.enrolled_users.count }} студентов</span>
-            </div>
-            <div class="meta-item">
-                <i class="fas fa-clock"></i>
-                <span>Примерное время обучения: {{ topic.estimated_time }}</span>
-            </div>
+           
         </div>
 
         <div class="preview-description">
             {{ topic.description|linebreaks }}
         </div>
 
-        <h2 class="preview-title">Содержание курса</h2>
+        <h2 class="preview-title">Содержание темы</h2>
         <ul class="subtopic-list">
             {% for subtopic in subtopics %}
                 <li class="subtopic-item">

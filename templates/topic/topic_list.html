@@ -237,7 +237,7 @@
 <div class="catalog-header">
     <div class="container">
         <h1 class="display-4 mb-3">Каталог курсов</h1>
-        <p class="lead mb-0">Выберите интересующий вас курс и начните обучение</p>
+        <p class="lead mb-0">Выберите интересующий вас тему и начните обучение</p>
     </div>
 </div>
 
@@ -261,8 +261,8 @@
             <h2 class="topic-title">{{ topic.title }}</h2>
 
             <div class="topic-meta mb-2">
-              <span class="me-3"><i class="fas fa-book"></i> {{ topic.subtopics.count }} уроков</span>
-              <span><i class="fas fa-users"></i> {{ topic.enrolled_users.count }} студентов</span>
+              <span class="me-3"><i class="fas fa-book"></i> Количество уроков - {{ topic.subtopics.count }}</span>
+              
             </div>
 
             {% if user.is_authenticated and topic in user.enrolled_topics.all %}
@@ -277,13 +277,13 @@
                             {% if user.is_authenticated %}
                                 {% if topic in user.enrolled_topics.all %}
                                     <a href="{% url 'course:subtopics' topic.id %}" class="btn btn-primary">
-                                        <i class="fas fa-play me-1"></i>Продолжить
+                                        <i class="fas fa-play me-1"></i>Продолжить Тему
                                     </a>
                                 {% else %}
                                 <form method="post" action="{% url 'course:enroll' topic.id %}" class="d-inline">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-outline-primary">
-                                        <i class="fas fa-plus me-2"></i>Записаться
+                                        <i class="fas fa-plus me-2"></i>Начать Тему
                                     </button>
                                 </form>
                                 {% endif %}
