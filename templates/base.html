@@ -420,18 +420,18 @@
                     <div class="col-md-4">
                         <div class="footer-card">
                             <h5>Контакты</h5>
-                            <a href="tel:+996XXX-XXX-XXX" class="footer-contact text-decoration-none">
-                                <i class="fas fa-phone"></i>
-                                <span>+996 (XXX) XXX-XXX</span>
-                            </a>
-                            <a href="mailto:info@casetechpc.kg" class="footer-contact text-decoration-none">
-                                <i class="fas fa-envelope"></i>
-                                <span>info@casetechpc.kg</span>
-                            </a>
-                            <div class="footer-contact">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>г. Бишкек, ул. Примерная 123</span>
-                            </div>
+                            {% if footer_contacts %}
+                                <a href="tel:{{ footer_contacts.number }}" class="footer-contact text-decoration-none">
+                                    <i class="fas fa-phone"></i>
+                                    <span>{{ footer_contacts.number }}</span>
+                                </a>
+                                <a href="mailto:{{ footer_contacts.email }}" class="footer-contact text-decoration-none">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>{{ footer_contacts.email }}</span>
+                                </a>
+                            {% else %}
+                                <p class="text-muted">Контактная информация недоступна</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -439,10 +439,22 @@
                             <h5>Мы в соцсетях</h5>
                             <p class="mb-3">Следите за нашими новостями и обновлениями в социальных сетях:</p>
                             <div class="footer-social">
-                                <a href="#" title="ВКонтакте"><i class="fab fa-vk"></i></a>
-                                <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
-                                <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                                {% if footer_contacts %}
+                                    {% if footer_contacts.link_1 %}
+                                        <a href="{{ footer_contacts.link_1 }}" title="ВКонтакте" target="_blank"><i class="fab fa-vk"></i></a>
+                                    {% endif %}
+                                    {% if footer_contacts.link_2 %}
+                                        <a href="{{ footer_contacts.link_2 }}" title="Telegram" target="_blank"><i class="fab fa-telegram"></i></a>
+                                    {% endif %}
+                                    {% if footer_contacts.link_3 %}
+                                        <a href="{{ footer_contacts.link_3 }}" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                    {% endif %}
+                                    {% if footer_contacts.link_4 %}
+                                        <a href="{{ footer_contacts.link_4 }}" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    {% endif %}
+                                {% else %}
+                                    <p class="text-muted">Социальные сети временно недоступны</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
